@@ -37,14 +37,14 @@ export default async function Home() {
           />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {featuredDestinations.map((destination) => (
+            {featuredDestinations.map((destination: any) => (
               <div
                 key={destination._id}
                 className="group relative overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:shadow-xl"
               >
                 <div className="relative h-64 w-full overflow-hidden">
                   <Image
-                    src={destination.imageUrl} // O el campo que tengas en tu modelo
+                    src={destination.imageUrl}
                     alt={destination.name}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
