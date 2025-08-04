@@ -15,7 +15,7 @@ import { FinancingSection } from "@/components/financing-section";
 export default async function Home() {
   // FETCH al backend para traer los destinos reales
   // Ajusta la URL a tu API real si la tienes diferente
-  const res = await fetch("http://localhost:5000/api/destinations", {
+  const res = await fetch("https://backendletsgotravel.onrender.com/api/destinations", {
     cache: 'no-store', // Así siempre muestra la data más reciente
   });
   const destinos = await res.json();

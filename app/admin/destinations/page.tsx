@@ -31,7 +31,7 @@ export default function AdminDestinationsPage() {
   const fetchDestinations = async (token?: string) => {
     const adminToken = token || localStorage.getItem("adminToken");
     try {
-      const res = await fetch("http://localhost:5000/api/destinations", {
+      const res = await fetch("https://backendletsgotravel.onrender.com/api/destinations", {
         headers: { Authorization: `Bearer ${adminToken}` },
       });
       if (res.status === 401) {

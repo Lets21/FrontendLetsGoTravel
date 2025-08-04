@@ -1,9 +1,23 @@
 "use client";
 import { useState, useEffect } from "react";
 
+// Define el tipo del formulario
+type FormDataState = {
+  name: string;
+  description: string;
+  price: string;
+  image: File | null;
+};
+
 export default function AdminPanel() {
-  const [destinations, setDestinations] = useState([]);
-  const [formData, setFormData] = useState({ name: "", description: "", price: "", image: null });
+  const [destinations, setDestinations] = useState<any[]>([]);
+  // Aquí tipamos el estado:
+  const [formData, setFormData] = useState<FormDataState>({
+    name: "",
+    description: "",
+    price: "",
+    image: null,
+  });
   const [token, setToken] = useState("");
 
   useEffect(() => {
@@ -21,7 +35,7 @@ export default function AdminPanel() {
     form.append("price", formData.price);
     if (formData.image) form.append("image", formData.image);
 
-    const res = await fetch("http://localhost:5000/api/destinations", {
+    const res = await fetch("https://backendletsgotravel.onrender.com/api/destinations", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`
@@ -59,7 +73,16 @@ export default function AdminPanel() {
         <input type="text" placeholder="Nombre" className="border p-2" onChange={e => setFormData({ ...formData, name: e.target.value })} />
         <input type="text" placeholder="Descripción" className="border p-2" onChange={e => setFormData({ ...formData, description: e.target.value })} />
         <input type="number" placeholder="Precio" className="border p-2" onChange={e => setFormData({ ...formData, price: e.target.value })} />
-        <input type="file" onChange={e => setFormData({ ...formData, image: e.target.files && e.target.files.length > 0 ? e.target.files[0] : null })} />
+        {/* Aquí NO CAMBIA, TypeScript ya no se quejará */}
+        <input
+          type="file"
+          onChange={e =>
+            setFormData({
+              ...formData,
+              image: e.target.files && e.target.files.length > 0 ? e.target.files[0] : null,
+            })
+          }
+        />
         <button type="submit" className="bg-blue-500 text-white px-4 py-2">Crear</button>
       </form>
 

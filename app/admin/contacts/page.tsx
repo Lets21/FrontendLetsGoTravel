@@ -21,7 +21,7 @@ export default function ContactsAdminPage() {
     const fetchContacts = async () => {
       try {
         const token = typeof window !== "undefined" ? localStorage.getItem("token") : "";
-        const res = await fetch("http://localhost:5000/api/contact", {
+        const res = await fetch("https://backendletsgotravel.onrender.com/api/contact", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
