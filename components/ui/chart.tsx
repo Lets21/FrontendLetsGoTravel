@@ -115,7 +115,7 @@ const ChartTooltipContent = React.forwardRef<
   (
     {
       active,
-      payload = [],
+      payload, // 👈 QUITA el "= []" aquí
       className,
       indicator = "dot",
       hideLabel = false,
@@ -131,10 +131,12 @@ const ChartTooltipContent = React.forwardRef<
     ref
   ) => {
     const { config } = useChart();
+    // 👇 Usa el valor por defecto DENTRO de la función
+    const safePayload = payload || [];
 
     const tooltipLabel = React.useMemo(() => {
-      if (hideLabel || !payload?.length) return null;
-      const [item] = payload;
+      if (hideLabel || !safePayload.length) return null;
+      const [item] = safePayload;
       const key = `${labelKey || item.dataKey || item.name || "value"}`;
       const itemConfig = getPayloadConfigFromPayload(config, item, key);
       const value =
@@ -145,7 +147,7 @@ const ChartTooltipContent = React.forwardRef<
       if (labelFormatter) {
         return (
           <div className={cn("font-medium", labelClassName)}>
-            {labelFormatter(value, payload)}
+            {labelFormatter(value, safePayload)}
           </div>
         );
       }
@@ -155,16 +157,16 @@ const ChartTooltipContent = React.forwardRef<
     }, [
       label,
       labelFormatter,
-      payload,
+      safePayload,
       hideLabel,
       labelClassName,
       config,
       labelKey,
     ]);
 
-    if (!active || !payload?.length) return null;
+    if (!active || !safePayload.length) return null;
 
-    const nestLabel = payload.length === 1 && indicator !== "dot";
+    const nestLabel = safePayload.length === 1 && indicator !== "dot";
 
     return (
       <div
@@ -176,7 +178,7 @@ const ChartTooltipContent = React.forwardRef<
       >
         {!nestLabel ? tooltipLabel : null}
         <div className="grid gap-1.5">
-          {(payload as any[]).map((item, index: number) => {
+          {(safePayload as any[]).map((item, index: number) => {
             const key = `${nameKey || item.name || item.dataKey || "value"}`;
             const itemConfig = getPayloadConfigFromPayload(config, item, key);
             const indicatorColor = color || (item.payload && item.payload.fill) || item.color;
