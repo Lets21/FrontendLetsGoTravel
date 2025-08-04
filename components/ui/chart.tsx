@@ -112,27 +112,28 @@ const ChartTooltipContent = React.forwardRef<
       labelKey?: string;
     }
 >(
-  (
-    {
+  // NO desestructures `payload`, usa props.payload dentro del cuerpo
+  (props, ref) => {
+    const label = (props as any).label;
+    const {
       active,
-      payload,
       className,
       indicator = "dot",
       hideLabel = false,
       hideIndicator = false,
-      label,
       labelFormatter,
       labelClassName,
       formatter,
       color,
       nameKey,
       labelKey,
-    },
-    ref
-  ) => {
+      // NO poner payload aquí
+    } = props;
+
+    // 👇 Así evitas el error de tipado
+    const safePayload = (props as any).payload || [];
+
     const { config } = useChart();
-    // 👇 Usa el valor por defecto DENTRO de la función
-    const safePayload = payload || [];
 
     const tooltipLabel = React.useMemo(() => {
       if (hideLabel || !safePayload.length) return null;
@@ -178,7 +179,7 @@ const ChartTooltipContent = React.forwardRef<
       >
         {!nestLabel ? tooltipLabel : null}
         <div className="grid gap-1.5">
-          {(safePayload as any[]).map((item, index: number) => {
+          {safePayload.map((item: any, index: number) => {
             const key = `${nameKey || item.name || item.dataKey || "value"}`;
             const itemConfig = getPayloadConfigFromPayload(config, item, key);
             const indicatorColor = color || (item.payload && item.payload.fill) || item.color;
@@ -248,6 +249,7 @@ const ChartTooltipContent = React.forwardRef<
   }
 );
 ChartTooltipContent.displayName = "ChartTooltip";
+
 
 // ----------- LEGEND PERSONALIZADO -----------
 const ChartLegend = RechartsLegend;
