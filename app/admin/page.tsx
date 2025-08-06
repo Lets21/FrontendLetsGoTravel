@@ -22,7 +22,7 @@ export default function AdminPanel() {
 
   useEffect(() => {
     // Cargar destinos
-    fetch("http://localhost:5000/api/destinations")
+    fetch("https://backendletsgotravel.onrender.com/api/destinations")
       .then(res => res.json())
       .then(data => setDestinations(data));
   }, []);
@@ -49,7 +49,7 @@ export default function AdminPanel() {
   };
 
   const handleDelete = async (id: string) => {
-    const res = await fetch(`http://localhost:5000/api/destinations/${id}`, {
+    const res = await fetch(`https://backendletsgotravel.onrender.com/api/destinations/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`
