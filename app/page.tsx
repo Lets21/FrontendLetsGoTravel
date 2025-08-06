@@ -10,17 +10,50 @@ import { TestimonialCarousel } from "@/components/testimonial-carousel";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import { FinancingSection } from "@/components/financing-section";
 
-// Elimina la importación de siteConfig.destinations, ya no se usará para los destacados
-
 export default async function Home() {
-  // FETCH al backend para traer los destinos reales
-  // Ajusta la URL a tu API real si la tienes diferente
-  const res = await fetch("https://backendletsgotravel.onrender.com/api/destinations", {
-    cache: 'no-store', // Así siempre muestra la data más reciente
-  });
-  const destinos = await res.json();
+  let destinos = [];
+  let fetchError = null;
 
-  // Selecciona solo 3 destinos destacados (puedes cambiarlos como gustes)
+  try {
+    const res = await fetch("https://backendletsgotravel.onrender.com/api/destinations", {
+      cache: 'no-store'
+    });
+
+    if (!res.ok) throw new Error("No se pudo cargar destinos");
+    destinos = await res.json();
+
+    if (!Array.isArray(destinos)) throw new Error("Formato inesperado en la respuesta de destinos");
+  } catch (err) {
+  // Si err es instancia de Error, usa .message; si no, convierte a string
+  fetchError = err instanceof Error ? err.message : String(err);
+}
+
+
+  // Manejo de error
+  if (fetchError) {
+    return (
+      <main className="flex flex-col min-h-screen justify-center items-center">
+        <HeroSection />
+        <div className="text-center text-red-500 font-bold text-xl mt-12">
+          Error: {fetchError}
+        </div>
+      </main>
+    );
+  }
+
+  // Manejo de loading o de array vacío
+  if (!destinos.length) {
+    return (
+      <main className="flex flex-col min-h-screen justify-center items-center">
+        <HeroSection />
+        <div className="text-center text-gray-500 font-semibold text-lg mt-12">
+          No hay destinos disponibles.
+        </div>
+      </main>
+    );
+  }
+
+  // Selecciona solo 3 destinos destacados
   const featuredDestinations = destinos.slice(0, 3);
 
   return (
@@ -43,12 +76,15 @@ export default async function Home() {
                 className="group relative overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:shadow-xl"
               >
                 <div className="relative h-64 w-full overflow-hidden">
-                  <Image
-                    src={destination.imageUrl}
-                    alt={destination.name}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
+                  {/* Maneja el error si no hay imagen */}
+                  {destination.imageUrl ?
+                    <Image
+                      src={destination.imageUrl}
+                      alt={destination.name}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                  : <div className="bg-gray-200 w-full h-full flex items-center justify-center">Sin imagen</div>}
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/70" />
                   <div className="absolute bottom-0 w-full p-6 text-white">
                     <h3 className="text-xl font-bold mb-1">{destination.name}</h3>
@@ -72,7 +108,6 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
       {/* ...el resto de tu código no cambia */}
       <section className="py-20">
         <div className="container mx-auto px-4">
