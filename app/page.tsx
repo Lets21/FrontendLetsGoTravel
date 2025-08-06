@@ -24,12 +24,10 @@ export default async function Home() {
 
     if (!Array.isArray(destinos)) throw new Error("Formato inesperado en la respuesta de destinos");
   } catch (err) {
-  // Si err es instancia de Error, usa .message; si no, convierte a string
-  fetchError = err instanceof Error ? err.message : String(err);
-}
+    fetchError = err instanceof Error ? err.message : String(err);
+  }
 
-
-  // Manejo de error
+  // --- DEBUG PRINT: Muestra el error o el array tal como llega ---
   if (fetchError) {
     return (
       <main className="flex flex-col min-h-screen justify-center items-center">
@@ -41,13 +39,17 @@ export default async function Home() {
     );
   }
 
-  // Manejo de loading o de array vacío
+  // Si el array llega vacío, mostramos el JSON recibido.
   if (!destinos.length) {
     return (
       <main className="flex flex-col min-h-screen justify-center items-center">
         <HeroSection />
         <div className="text-center text-gray-500 font-semibold text-lg mt-12">
-          No hay destinos disponibles.
+          No hay destinos disponibles.<br />
+          <span className="block mt-2 text-xs text-black bg-gray-100 p-2 rounded">
+            <b>Debug:</b> Respuesta cruda del backend:
+            <pre>{JSON.stringify(destinos, null, 2)}</pre>
+          </span>
         </div>
       </main>
     );
@@ -84,7 +86,7 @@ export default async function Home() {
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
                     />
-                  : <div className="bg-gray-200 w-full h-full flex items-center justify-center">Sin imagen</div>}
+                    : <div className="bg-gray-200 w-full h-full flex items-center justify-center">Sin imagen</div>}
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/70" />
                   <div className="absolute bottom-0 w-full p-6 text-white">
                     <h3 className="text-xl font-bold mb-1">{destination.name}</h3>
@@ -143,7 +145,7 @@ export default async function Home() {
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">¿Listo para Empezar Tu Próxima Aventura?</h2>
           <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-8">
-              Permítenos ayudarte a planear el viaje perfecto. Nuestros expertos están listos para crear una experiencia personalizada solo para ti.
+            Permítenos ayudarte a planear el viaje perfecto. Nuestros expertos están listos para crear una experiencia personalizada solo para ti.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
