@@ -1,3 +1,4 @@
+// app/layout.tsx
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -10,7 +11,20 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: "Let's Go Travel | Premium Travel Agency in Ecuador",
-  description: 'Your premium travel agency in Ecuador, specializing in personalized travel experiences to South America, Europe, and beyond.',
+  description:
+    'Your premium travel agency in Ecuador, specializing in personalized travel experiences to South America, Europe, and beyond.',
+  // Forzamos “cache-bust” con ?v=2 para que el navegador no muestre el icono viejo
+  icons: {
+    icon: [
+      { url: '/favicon.ico?v=2', type: 'image/x-icon' },
+      { url: '/favicon-32x32.png?v=2', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-16x16.png?v=2', sizes: '16x16', type: 'image/png' },
+    ],
+    apple: '/apple-icon.png?v=2',
+    shortcut: '/favicon.ico?v=2',
+  },
+  // Si luego quieres PWA, crea /public/site.webmanifest y descomenta:
+  // manifest: '/site.webmanifest',
 };
 
 export default function RootLayout({
@@ -23,17 +37,9 @@ export default function RootLayout({
       <head>
         <style>{`
           @keyframes fadeUp {
-            from {
-              opacity: 0;
-              transform: translateY(20px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
           }
-          
-          /* Gold color variables */
           :root {
             --color-gold-50: #FFFBEBff;
             --color-gold-100: #FEF3C7ff;
@@ -48,7 +54,7 @@ export default function RootLayout({
           }
         `}</style>
       </head>
-      <body className={cn(inter.className, "min-h-screen bg-background antialiased")}>
+      <body className={cn(inter.className, 'min-h-screen bg-background antialiased')}>
         <SiteHeader />
         {children}
         <SiteFooter />
