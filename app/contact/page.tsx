@@ -1,4 +1,4 @@
-'use client';
+
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ContactForm } from "@/components/contact-form";
 import { WhatsAppButton } from "@/components/whatsapp-button";
