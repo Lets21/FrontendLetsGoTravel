@@ -23,7 +23,7 @@ export function DestinationGrid() {
 
   useEffect(() => {
     setLoading(true);
-    fetch("http://localhost:5000/api/destinations")
+    fetch("https://backendletsgotravel.onrender.com/api/destinations")
       .then(res => res.json())
       .then((data: Destination[]) => {
         setDestinationsData(data);
