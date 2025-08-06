@@ -10,46 +10,72 @@ import { TestimonialCarousel } from "@/components/testimonial-carousel";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import { FinancingSection } from "@/components/financing-section";
 
+// Función auxiliar para fetch con timeout
+async function fetchWithTimeout(resource: string, options: any = {}) {
+  const { timeout = 8000 } = options; // 8 segundos
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+  try {
+    const response = await fetch(resource, {
+      ...options,
+      signal: controller.signal,
+    });
+    clearTimeout(id);
+    return response;
+  } catch (error) {
+    clearTimeout(id);
+    throw error;
+  }
+}
+
 export default async function Home() {
-  let destinos = [];
-  let fetchError = null;
+  let destinos: any[] = [];
+  let fetchError: string | null = null;
 
   try {
-    const res = await fetch("https://backendletsgotravel.onrender.com/api/destinations", {
-      cache: 'no-store'
-    });
-
+    const res = await fetchWithTimeout(
+      "https://backendletsgotravel.onrender.com/api/destinations",
+      { cache: "no-store", timeout: 8000 }
+    );
     if (!res.ok) throw new Error("No se pudo cargar destinos");
     destinos = await res.json();
-
     if (!Array.isArray(destinos)) throw new Error("Formato inesperado en la respuesta de destinos");
   } catch (err) {
-    fetchError = err instanceof Error ? err.message : String(err);
+    if (err instanceof Error) {
+      if (err.name === "AbortError") {
+        fetchError = "El servidor de viajes está tardando demasiado en responder. Intenta de nuevo en 1 minuto.";
+      } else {
+        fetchError = err.message;
+      }
+    } else {
+      fetchError = String(err);
+    }
   }
 
-  // --- DEBUG PRINT: Muestra el error o el array tal como llega ---
+  // Mostrar error si ocurre
   if (fetchError) {
     return (
       <main className="flex flex-col min-h-screen justify-center items-center">
         <HeroSection />
-        <div className="text-center text-red-500 font-bold text-xl mt-12">
-          Error: {fetchError}
+        <div className="text-center text-red-500 font-bold text-xl mt-12 max-w-xl">
+          <p>Ocurrió un problema al cargar los destinos.</p>
+          <p className="mt-2">{fetchError}</p>
+          <p className="mt-4 text-base text-gray-500">
+            Si el error persiste, <b>espera unos segundos</b> y <b>refresca la página</b>.<br />
+            (Nuestro servidor puede estar "despertando" 🚀)
+          </p>
         </div>
       </main>
     );
   }
 
-  // Si el array llega vacío, mostramos el JSON recibido.
+  // Si la lista está vacía (pero sin error)
   if (!destinos.length) {
     return (
       <main className="flex flex-col min-h-screen justify-center items-center">
         <HeroSection />
         <div className="text-center text-gray-500 font-semibold text-lg mt-12">
-          No hay destinos disponibles.<br />
-          <span className="block mt-2 text-xs text-black bg-gray-100 p-2 rounded">
-            <b>Debug:</b> Respuesta cruda del backend:
-            <pre>{JSON.stringify(destinos, null, 2)}</pre>
-          </span>
+          No hay destinos disponibles por el momento.
         </div>
       </main>
     );
@@ -62,7 +88,7 @@ export default async function Home() {
     <main>
       <HeroSection />
 
-      {/* Featured Destinations */}
+      {/* Destinos destacados */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <SectionHeading
@@ -78,15 +104,18 @@ export default async function Home() {
                 className="group relative overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:shadow-xl"
               >
                 <div className="relative h-64 w-full overflow-hidden">
-                  {/* Maneja el error si no hay imagen */}
-                  {destination.imageUrl ?
+                  {destination.imageUrl ? (
                     <Image
                       src={destination.imageUrl}
                       alt={destination.name}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
                     />
-                    : <div className="bg-gray-200 w-full h-full flex items-center justify-center">Sin imagen</div>}
+                  ) : (
+                    <div className="bg-gray-200 w-full h-full flex items-center justify-center">
+                      Sin imagen
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/70" />
                   <div className="absolute bottom-0 w-full p-6 text-white">
                     <h3 className="text-xl font-bold mb-1">{destination.name}</h3>
@@ -110,7 +139,7 @@ export default async function Home() {
           </div>
         </div>
       </section>
-      {/* ...el resto de tu código no cambia */}
+      {/* El resto de tus secciones */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <SectionHeading
