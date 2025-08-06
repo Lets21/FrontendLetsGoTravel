@@ -16,7 +16,8 @@ export function ServiceCard({ title, description, icon }: ServiceCardProps) {
       return icons[icon];
     },
     { ssr: false, loading: () => <div className="w-8 h-8" /> }
-  ) as LucideIcon;
+  ) as typeof LucideIcon;
+
 
   return (
     <div className="bg-white rounded-lg p-6 shadow-md transition-all duration-300 hover:shadow-xl group">
