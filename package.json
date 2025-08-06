@@ -42,7 +42,6 @@
     "cmdk": "^1.1.1",
     "date-fns": "^3.3.1",
     "embla-carousel-react": "^8.0.0",
-    "input-otp": "^1.4.2",
     "lets-go-travel": "file:",
     "lucide-react": "^0.358.0",
     "next": "14.1.3",
