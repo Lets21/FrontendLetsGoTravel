@@ -66,8 +66,8 @@ export default function AdminDestinationsPage() {
     }
 
     const url = editingId
-      ? `http://localhost:5000/api/destinations/${editingId}`
-      : "http://localhost:5000/api/destinations";
+      ? `https://backendletsgotravel.onrender.com/api/destinations/${editingId}`
+      : "https://backendletsgotravel.onrender.com/api/destinations";
     const method = editingId ? "PUT" : "POST";
 
     const res = await fetch(url, {
@@ -97,7 +97,7 @@ export default function AdminDestinationsPage() {
   const handleDelete = async (id: string) => {
     if (!confirm("¿Seguro que quieres eliminar este destino?")) return;
     const adminToken = localStorage.getItem("adminToken") || undefined;
-    const res = await fetch(`http://localhost:5000/api/destinations/${id}`, {
+    const res = await fetch(`https://backendletsgotravel.onrender.com/api/destinations/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${adminToken}` },
     });
