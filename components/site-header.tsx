@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
@@ -11,38 +10,25 @@ import Image from "next/image";
 
 export function SiteHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // --- ¡NO usamos isScrolled para cambiar color! ---
+  // Header SIEMPRE negro sólido, sin transparencia ni opacidad.
 
   return (
-    <header
-      className={cn(
-        "fixed top-0 w-full z-50 transition-all duration-300",
-        isScrolled
-          ? "bg-black bg-opacity-95 shadow-md py-2"
-          : "bg-transparent py-4"
-      )}
-    >
-      <div className="container mx-auto flex items-center justify-between">
+    <header className="fixed top-0 w-full z-50 bg-black shadow-md">
+      <div className="container mx-auto flex items-center justify-between py-2 md:py-0">
         <Link href="/" className="flex items-center space-x-2">
-          <div className="relative h-40 w-10 sm:h-12 sm:w-40">
+          {/* LOGO responsive, tamaño adecuado */}
+          <div className="relative h-10 w-28 sm:h-12 sm:w-40">
             <Image
               src="/logo - Editado.png"
               alt={siteConfig.name}
-              height={115}
-              width={115}
+              fill
               className="object-contain"
+              priority
+              sizes="(max-width: 640px) 112px, 160px"
             />
           </div>
-          
         </Link>
 
         {/* Desktop Navigation */}
@@ -72,13 +58,13 @@ export function SiteHeader() {
           className="md:hidden text-white p-2"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed top-16 left-0 right-0 bottom-0 bg-black bg-opacity-95 z-40 flex flex-col">
+        <div className="md:hidden fixed top-16 left-0 right-0 bottom-0 bg-black z-40 flex flex-col">
           <nav className="flex flex-col space-y-4 p-6">
             {siteConfig.mainNav.map((item) => (
               <Link
