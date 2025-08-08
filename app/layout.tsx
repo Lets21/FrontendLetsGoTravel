@@ -10,9 +10,9 @@ import { SiteFooter } from '@/components/site-footer';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "Let's Go Travel | Premium Travel Agency in Ecuador",
+  title: "Lets Go Travel SS | Tu agencia de viajes premium en Ecuador",
   description:
-    'Your premium travel agency in Ecuador, specializing in personalized travel experiences to South America, Europe, and beyond.',
+    'Tu agencia de viajes premium en Ecuador, especializada en experiencias personalizadas a Sudamérica, Europa y más allá.',
   icons: {
     icon: [
       { url: '/favicon.ico?v=2', type: 'image/x-icon' },
