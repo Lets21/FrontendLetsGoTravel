@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "Let's Go Travel",
+  name: "Lets Go Travel SS",
   description: "Tu agencia de viajes premium en Ecuador, especializada en experiencias personalizadas a Sudamérica, Europa y más allá.",
   mainNav: [
     {
