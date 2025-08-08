@@ -13,7 +13,6 @@ export const metadata: Metadata = {
   title: "Let's Go Travel | Premium Travel Agency in Ecuador",
   description:
     'Your premium travel agency in Ecuador, specializing in personalized travel experiences to South America, Europe, and beyond.',
-  // Forzamos “cache-bust” con ?v=2 para que el navegador no muestre el icono viejo
   icons: {
     icon: [
       { url: '/favicon.ico?v=2', type: 'image/x-icon' },
@@ -23,7 +22,6 @@ export const metadata: Metadata = {
     apple: '/apple-icon.png?v=2',
     shortcut: '/favicon.ico?v=2',
   },
-  // Si luego quieres PWA, crea /public/site.webmanifest y descomenta:
   // manifest: '/site.webmanifest',
 };
 
@@ -56,7 +54,12 @@ export default function RootLayout({
       </head>
       <body className={cn(inter.className, 'min-h-screen bg-background antialiased')}>
         <SiteHeader />
+
+        {/* Separador para compensar el header fijo (ajusta si hace falta) */}
+        <div className="h-20 md:h-28" />
+
         {children}
+
         <SiteFooter />
       </body>
     </html>

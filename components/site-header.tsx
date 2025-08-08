@@ -11,8 +11,9 @@ export function SiteHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 w-full z-50 bg-black shadow-md">
-      <div className="container mx-auto flex items-center justify-between py-1 md:py-2">
+    <header className="fixed top-0 w-full z-50 bg-black shadow-md h-20 md:h-28">
+  <div className="container mx-auto flex h-full items-center justify-between">
+
         <Link href="/" className="flex items-center space-x-2">
           {/* LOGO más grande */}
           <div className="relative h-14 w-40 sm:h-28 sm:w-60">
