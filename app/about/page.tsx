@@ -33,16 +33,31 @@ export default function AboutPage() {
               />
 
               <p className="text-gray-600 mb-4">
-                Fundada en 2015, Let's Go Travel nació de una pasión sencilla: compartir la belleza de Ecuador y el mundo con viajeros que buscan experiencias auténticas. Lo que comenzó como una operación pequeña, hoy es una agencia de viajes integral con reputación de excelencia y servicio personalizado.
+              
+Somos una agencia de viajes joven, apasionada e innovadora, nacida con el propósito de hacer realidad los sueños de quienes desean explorar el mundo.
+              </p>
+              <p className="text-gray-600 mb-4">
+En Lets Go Travel SS, creemos que cada persona merece vivir nuevas experiencias, descubrir otros destinos, culturas y paisajes, y que viajar debe ser una oportunidad accesible, emocionalmente enriquecedora y sostenible para todos.
               </p>
 
               <p className="text-gray-600 mb-4">
-                Nuestra fundadora, inspirada por sus propios viajes transformadores, reconoció la necesidad de experiencias que fueran más allá de las rutas turísticas convencionales. Soñó con crear viajes que conecten a los viajeros con el alma de los destinos, brindando comodidad y seguridad mediante una planificación experta.
+                Nuestra esencia está en conectar con las personas desde lo humano: escuchamos, comprendemos y creamos propuestas personalizadas que se adaptan a los deseos, posibilidades y estilo de vida de cada viajero. No ofrecemos paquetes cerrados, sino experiencias abiertas al corazón, a la mente y al crecimiento personal.
+              </p>
+              <p className="text-gray-600 mb-4">
+Nos mueve el deseo de ser parte de ese primer viaje, de ese reencuentro, de esa escapada soñada. Y por eso acompañamos a nuestros clientes desde el primer paso, ofreciendo opciones de financiamiento, asesoría cercana y atención empática y profesional.
               </p>
 
               <p className="text-gray-600">
-                Hoy, Let's Go Travel atiende a cientos de clientes satisfechos cada año, diseñando experiencias personalizadas por Sudamérica, Europa y más allá. Nuestro equipo de asesores de viaje comparte un mismo objetivo: hacer realidad tus sueños de viaje.
+                Porque no se trata solo de moverse de lugar, sino de transformar la vida a través del viaje.
               </p>
+              <p className="text-gray-600">
+
+Creemos en ti, creamos contigo y crecemos juntos.
+              </p>
+              <p className="text-gray-600">
+Lets Go Travel SS – Cree. Crea. Crece.
+              </p>
+
 
             </div>
             
@@ -72,7 +87,7 @@ export default function AboutPage() {
               <h3 className="text-xl font-bold mb-4">Nuestra Misión</h3>
               <p className="text-gray-600">
                 Inspirar a las personas a redescubrirse a sí mismas a través del poder transformador de los viajes.
-En Let’s Go Travel, creemos que viajar no solo es moverse por el mundo, sino expandir la mente, romper rutinas, sanar el alma y cultivar sueños.
+En Lets Go Travel SS, creemos que viajar no solo es moverse por el mundo, sino expandir la mente, romper rutinas, sanar el alma y cultivar sueños.
 Diseñamos experiencias únicas que conectan con tus emociones, tus metas y tu esencia, para que cada destino sea un paso hacia una mejor versión de ti mismo.
 
 Cree en lo que eres capaz. Crea la vida que mereces. Crece con cada viaje.
@@ -95,19 +110,19 @@ Porque al viajar, no solo descubres lugares: descubres lo lejos que puedes llega
               <ul className="space-y-2 text-gray-600">
                 <li className="flex items-center">
                   <span className="w-2 h-2 bg-gold-500 rounded-full mr-2"></span>
-                  Personalización en cada itinerario
+                  Creemos en construir relaciones honestas, cercanas y duraderas. Nuestra prioridad es que cada viajero se sienta seguro, acompañado y respaldado antes, durante y después de su viaje.
                 </li>
                 <li className="flex items-center">
                   <span className="w-2 h-2 bg-gold-500 rounded-full mr-2"></span>
-                  Integridad en todas nuestras gestiones
+                  Cada viaje es una historia única. Diseñamos experiencias auténticas y personalizadas, pensando fuera de lo común para que cada aventura sea inolvidable.
                 </li>
                 <li className="flex items-center">
                   <span className="w-2 h-2 bg-gold-500 rounded-full mr-2"></span>
-                  Excelencia en la prestación de servicios
+                  Escuchamos activamente, entendemos las necesidades de cada persona y adaptamos nuestras propuestas para ofrecer soluciones reales, humanas y significativas.
                 </li>
                 <li className="flex items-center">
                   <span className="w-2 h-2 bg-gold-500 rounded-full mr-2"></span>
-                  Sostenibilidad en las prácticas turísticas
+                  Creemos que viajar no debe ser un lujo, sino una posibilidad real. Nos esforzamos por ofrecer opciones que se ajusten a diversos presupuestos sin sacrificar calidad ni emoción.
                 </li>
               </ul>
             </div>

@@ -6,6 +6,14 @@ export const siteConfig = {
       title: "Inicio",
       href: "/",
     },
+        {
+      title: "Sobre Nosotros",
+      href: "/about",
+    },
+        {
+      title: "Contacto",
+      href: "/contact",
+    },
     {
       title: "Destinos",
       href: "/destinations",
@@ -15,16 +23,8 @@ export const siteConfig = {
       href: "/services",
     },
     {
-      title: "Sobre Nosotros",
-      href: "/about",
-    },
-    {
       title: "Financiamiento",
       href: "/financing",
-    },
-    {
-      title: "Contacto",
-      href: "/contact",
     },
   ],
   links: {
