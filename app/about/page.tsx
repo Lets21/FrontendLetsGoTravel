@@ -71,14 +71,22 @@ export default function AboutPage() {
             <div className="bg-white p-8 rounded-lg shadow-md border-t-4 border-gold-500">
               <h3 className="text-xl font-bold mb-4">Nuestra Misión</h3>
               <p className="text-gray-600">
-                Crear experiencias de viaje transformadoras que conecten a las personas con los destinos, culturas y comunidades más inspiradoras del mundo, brindando un servicio excepcional en cada etapa del viaje.
+                Inspirar a las personas a redescubrirse a sí mismas a través del poder transformador de los viajes.
+En Let’s Go Travel, creemos que viajar no solo es moverse por el mundo, sino expandir la mente, romper rutinas, sanar el alma y cultivar sueños.
+Diseñamos experiencias únicas que conectan con tus emociones, tus metas y tu esencia, para que cada destino sea un paso hacia una mejor versión de ti mismo.
+
+Cree en lo que eres capaz. Crea la vida que mereces. Crece con cada viaje.
               </p>
             </div>
             
             <div className="bg-white p-8 rounded-lg shadow-md border-t-4 border-gold-500">
               <h3 className="text-xl font-bold mb-4">Nuestra Visión</h3>
               <p className="text-gray-600">
-                Ser el socio de viaje más confiable para los ecuatorianos que exploran el mundo, reconocidos por nuestro enfoque personalizado, atención al detalle y compromiso con un turismo responsable.
+                Convertirnos en la agencia de viajes referente en Ecuador por promover un turismo consciente, accesible y profundamente humano, donde cada viaje sea una oportunidad para reconectar, aprender, superar miedos y construir memorias que transformen vidas.
+
+Queremos que las personas viajen no solo para conocer el mundo, sino para conocerse a sí mismas.
+Creemos en un turismo que inspira, educa y deja huella.
+Porque al viajar, no solo descubres lugares: descubres lo lejos que puedes llegar.
               </p>
             </div>
             
