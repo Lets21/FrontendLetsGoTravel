@@ -12,13 +12,13 @@ export function SiteHeader() {
 
   return (
     <header className="fixed top-0 z-50 w-full bg-black text-white shadow-lg">
-      {/* Main bar */}
-      <div className="h-16 md:h-20">
+      {/* Main bar: alturas pedidas */}
+      <div className="h-24 md:h-28">
         <div className="container mx-auto flex h-full items-center justify-between px-4">
           {/* Branding: logo + nombre + “Agencia de Viajes” */}
           <Link href="/" className="flex items-center gap-3 md:gap-4">
-            {/* Logo */}
-            <div className="relative h-10 w-28 xs:h-12 xs:w-36 md:h-14 md:w-44">
+            {/* Logo (igual que tu versión) */}
+            <div className="relative h-16 w-40 xs:h-12 xs:w-36 md:h-28 md:w-72">
               <Image
                 src="/logo - Editado.png"
                 alt="LetsGoTravel SS"
@@ -29,16 +29,16 @@ export function SiteHeader() {
               />
             </div>
 
-            {/* Separador vertical (sutil) */}
-            <span className="hidden sm:block h-8 w-px bg-white/20" />
+            {/* Separador vertical SOLO en móvil */}
+            <span className="hidden md:hidden sm:block h-8 w-px bg-white/20" />
 
-            {/* Bloque de texto de marca */}
-            <div className="leading-tight">
-              <span className="block text-sm md:text-base font-semibold tracking-wide">
+            {/* Bloque de texto SOLO en móvil */}
+            <div className="leading-tight md:hidden">
+              <span className="block text-sm font-semibold tracking-wide">
                 LETS<span className="text-gold-500">GO</span>TRAVEL{" "}
                 <span className="text-gold-500">SS</span>
               </span>
-              <span className="block text-[11px] md:text-sm text-white/70">
+              <span className="block text-[11px] text-white/70">
                 Agencia de Viajes
               </span>
             </div>
@@ -77,9 +77,9 @@ export function SiteHeader() {
         </div>
       </div>
 
-      {/* Menú móvil (debajo del header total ~80px) */}
+      {/* Menú móvil: arranca justo bajo el header de 96px */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed top-[80px] left-0 right-0 bottom-0 bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-black/80 z-40">
+        <div className="md:hidden fixed top-24 left-0 right-0 bottom-0 bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-black/80 z-40">
           <nav className="container mx-auto flex flex-col gap-1 p-4">
             {siteConfig.mainNav.map((item) => (
               <Link
