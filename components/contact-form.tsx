@@ -46,7 +46,7 @@ export function ContactForm() {
       email: "",
       phone: "",
       destination: defaultDestination,
-      subject: defaultDestination ? `Inquiry about ${defaultDestination}` : "",
+      subject: defaultDestination ? `Consulta sobre el destino ${defaultDestination}` : "",
       message: "",
     },
   });
