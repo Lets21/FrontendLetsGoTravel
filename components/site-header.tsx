@@ -14,11 +14,10 @@ export function SiteHeader() {
     <header className="fixed top-0 z-50 w-full bg-black text-white shadow-lg">
       {/* Main bar: alturas pedidas */}
       <div className="h-24 md:h-28">
-        <div className="container mx-auto flex h-full items-center justify-between px-4">
-          {/* Branding: logo + nombre + “Agencia de Viajes” */}
-          <Link href="/" className="flex items-center gap-3 md:gap-4">
-            {/* Logo (igual que tu versión) */}
-            <div className="relative h-16 w-40 xs:h-12 xs:w-36 md:h-28 md:w-72">
+        <div className="container mx-auto relative flex h-full items-center justify-between px-4">
+          {/* Logo (izquierda) */}
+          <Link href="/" className="flex items-center">
+            <div className="relative h-16 w-40 xs:h-12 xs:w-36 md:h-28 md:w-72 shrink-0">
               <Image
                 src="/logo - Editado.png"
                 alt="LetsGoTravel SS"
@@ -28,21 +27,18 @@ export function SiteHeader() {
                 sizes="(max-width: 640px) 144px, (max-width: 768px) 176px, 224px"
               />
             </div>
-
-            {/* Separador vertical SOLO en móvil */}
-            <span className="hidden md:hidden sm:block h-8 w-px bg-white/20" />
-
-            {/* Bloque de texto SOLO en móvil */}
-            <div className="leading-tight md:hidden">
-              <span className="block text-sm font-semibold tracking-wide">
-                LETS<span className="text-gold-500">GO</span>TRAVEL{" "}
-                <span className="text-gold-500">SS</span>
-              </span>
-              <span className="block text-[11px] text-white/70">
-                Agencia de Viajes
-              </span>
-            </div>
           </Link>
+
+          {/* Título centrado SOLO en móvil (no afecta desktop) */}
+          <div className="md:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 leading-tight text-center">
+            <span className="block text-sm font-semibold tracking-wide">
+              LETS<span className="text-gold-500">GO</span>TRAVEL{" "}
+              <span className="text-gold-500">SS</span>
+            </span>
+            <span className="block text-[11px] text-white/70">
+              Tu Agencia de Viajes
+            </span>
+          </div>
 
           {/* Navegación desktop */}
           <nav className="hidden md:flex items-center gap-8">
