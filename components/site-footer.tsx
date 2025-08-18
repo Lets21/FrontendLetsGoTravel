@@ -86,12 +86,16 @@ export function SiteFooter() {
 
         <hr className="border-gray-800 my-8" />
 
-        {/* Bottom Footer (solo derechos reservados, sin RUC ni licencia) */}
-        <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
-          <p>
-            &copy; {new Date().getFullYear()} {siteConfig.name}. Todos los derechos reservados.
-          </p>
-        </div>
+        {/* Bottom Footer (derechos reservados + licencia LUAE) */}
+<div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
+  <p>
+    &copy; {new Date().getFullYear()} {siteConfig.name}. Todos los derechos reservados.
+  </p>
+  <p className="mt-2 md:mt-0">
+    LUAE: 2025WEBLUAE455225
+  </p>
+</div>
+
       </div>
     </footer>
   );

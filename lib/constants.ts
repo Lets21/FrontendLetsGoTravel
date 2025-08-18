@@ -33,9 +33,9 @@ export const siteConfig = {
     tiktok: "https://tiktok.com/@letsgotravel",
   },
   contact: {
-    phone: "+593 999880033",
+    phone: "+593 999497250",
     email: "letssgotravel@protonmail.com",
-    whatsapp: "+593999880033",
+    whatsapp: "+593999497250",
     address: "Av. Eloy Alfaro y Fernando Ayarza, Quito, Ecuador",
   },
   destinations: [
