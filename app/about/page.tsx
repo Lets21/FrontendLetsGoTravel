@@ -37,7 +37,7 @@ export default function AboutPage() {
 Somos una agencia de viajes joven, apasionada e innovadora, creada con el propósito de hacer realidad los sueños de quienes desean explorar el mundo.
               </p>
               <p className="text-gray-600 mb-4">
-En Lets Go Travel SS, creemos que cada persona merece vivir nuevas experiencias, descubrir otros destinos, culturas y paisajes, y que viajar debe ser una oportunidad accesible, emocionalmente enriquecedora y sostenible para todos.
+En Lets Go Travel & SS, creemos que cada persona merece vivir nuevas experiencias, descubrir otros destinos, culturas y paisajes, y que viajar debe ser una oportunidad accesible, emocionalmente enriquecedora y sostenible para todos.
               </p>
 
               <p className="text-gray-600 mb-4">
@@ -55,7 +55,7 @@ Nos mueve el deseo de ser parte de ese primer viaje, de ese reencuentro, de esa 
 Creemos en ti, creamos contigo y crecemos juntos.
               </p>
               <p className="text-gray-600">
-Lets Go Travel SS – Cree. Crea. Crece.
+Lets Go Travel & SS – Cree. Crea. Crece.
               </p>
 
 
@@ -87,7 +87,7 @@ Lets Go Travel SS – Cree. Crea. Crece.
               <h3 className="text-xl font-bold mb-4">Nuestra Misión</h3>
               <p className="text-gray-600">
                 Inspirar a las personas a redescubrirse a sí mismas a través del poder transformador de los viajes.
-En Lets Go Travel SS, creemos que viajar no solo es moverse por el mundo, sino expandir la mente, romper rutinas, sanar el alma y cultivar sueños.
+En Lets Go Travel & SS, creemos que viajar no solo es moverse por el mundo, sino expandir la mente, romper rutinas, sanar el alma y cultivar sueños.
 Diseñamos experiencias únicas que conectan con tus emociones, tus metas y tu esencia, para que cada destino sea un paso hacia una mejor versión de ti mismo.
 
 Cree en lo que eres capaz. Crea la vida que mereces. Crece con cada viaje.
@@ -130,121 +130,126 @@ Porque al viajar, no solo descubres lugares: descubres lo lejos que puedes llega
         </div>
       </section>
 
-      {/* Our Team */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <SectionHeading
-            title="Conoce a Nuestro Equipo"
-            subtitle="Expertos dedicados a diseñar tu viaje ideal"
-            center
+      {/*
+<section className="py-20">
+  <div className="container mx-auto px-4">
+    <SectionHeading
+      title="Conoce a Nuestro Equipo"
+      subtitle="Expertos dedicados a diseñar tu viaje ideal"
+      center
+    />
+
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+      <div className="text-center">
+        <div className="relative h-64 w-64 mx-auto rounded-full overflow-hidden mb-6">
+          <Image
+            src="https://images.pexels.com/photos/3760514/pexels-photo-3760514.jpeg"
+            alt="Team Member"
+            fill
+            className="object-cover"
           />
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-            <div className="text-center">
-              <div className="relative h-64 w-64 mx-auto rounded-full overflow-hidden mb-6">
-                <Image
-                  src="https://images.pexels.com/photos/3760514/pexels-photo-3760514.jpeg"
-                  alt="Team Member"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <h3 className="text-xl font-bold mb-1">Gabriela Sánchez</h3>
-              <p className="text-gold-500 font-medium mb-2">Fundadora y Directora Ejecutiva</p>
-              <p className="text-gray-600">
-                Con más de 15 años en la industria del turismo, Gabriela aporta su pasión por la exploración y la inmersión cultural a cada viaje de nuestros clientes.
-              </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="relative h-64 w-64 mx-auto rounded-full overflow-hidden mb-6">
-                <Image
-                  src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg"
-                  alt="Team Member"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <h3 className="text-xl font-bold mb-1">Andrés Mendoza</h3>
-              <p className="text-gold-500 font-medium mb-2">Jefe de Operaciones</p>
-              <p className="text-gray-600">
-                Andrés se asegura de que cada detalle logístico esté perfectamente coordinado, desde traslados hasta alojamientos especiales.
-              </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="relative h-64 w-64 mx-auto rounded-full overflow-hidden mb-6">
-                <Image
-                  src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg"
-                  alt="Team Member"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <h3 className="text-xl font-bold mb-1">Carolina Paz</h3>
-            <p className="text-gold-500 font-medium mb-2">Especialista en Destinos Europeos</p>
-            <p className="text-gray-600">
-              Tras haber vivido en París y Roma, el conocimiento de primera mano de Carolina la convierte en la guía ideal para tus aventuras por Europa.
-            </p>
-            </div>
-          </div>
         </div>
-      </section>
+        <h3 className="text-xl font-bold mb-1">Gabriela Sánchez</h3>
+        <p className="text-gold-500 font-medium mb-2">Fundadora y Directora Ejecutiva</p>
+        <p className="text-gray-600">
+          Con más de 15 años en la industria del turismo, Gabriela aporta su pasión por la exploración y la inmersión cultural a cada viaje de nuestros clientes.
+        </p>
+      </div>
+
+      <div className="text-center">
+        <div className="relative h-64 w-64 mx-auto rounded-full overflow-hidden mb-6">
+          <Image
+            src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg"
+            alt="Team Member"
+            fill
+            className="object-cover"
+          />
+        </div>
+        <h3 className="text-xl font-bold mb-1">Andrés Mendoza</h3>
+        <p className="text-gold-500 font-medium mb-2">Jefe de Operaciones</p>
+        <p className="text-gray-600">
+          Andrés se asegura de que cada detalle logístico esté perfectamente coordinado, desde traslados hasta alojamientos especiales.
+        </p>
+      </div>
+
+      <div className="text-center">
+        <div className="relative h-64 w-64 mx-auto rounded-full overflow-hidden mb-6">
+          <Image
+            src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg"
+            alt="Team Member"
+            fill
+            className="object-cover"
+          />
+        </div>
+        <h3 className="text-xl font-bold mb-1">Carolina Paz</h3>
+        <p className="text-gold-500 font-medium mb-2">Especialista en Destinos Europeos</p>
+        <p className="text-gray-600">
+          Tras haber vivido en París y Roma, el conocimiento de primera mano de Carolina la convierte en la guía ideal para tus aventuras por Europa.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+*/}
+
 
       {/* Certifications */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <SectionHeading
-            title="Nuestras Certificaciones y Alianzas"
-            subtitle="Cumplimos con los más altos estándares del sector turístico"
-            center
-          />
-          
-          <div className="flex flex-wrap justify-center gap-12 mt-12">
-            <div className="text-center">
-              <div className="w-32 h-32 bg-white rounded-lg shadow-md flex items-center justify-center p-4">
-                <div className="relative w-full h-full">
-                  <Image
-                    src="/seals/iata.png"
-                    alt="IATA Certification"
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-              </div>
-              <p className="mt-3 font-medium">Acreditación IATA</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-32 h-32 bg-white rounded-lg shadow-md flex items-center justify-center p-4">
-                <div className="relative w-full h-full">
-                  <Image
-                    src="/seals/mintur.png"
-                    alt="Ministry of Tourism"
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-              </div>
-              <p className="mt-3 font-medium">Ministerio de Turismo</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-32 h-32 bg-white rounded-lg shadow-md flex items-center justify-center p-4">
-                <div className="relative w-full h-full">
-                  <Image
-                    src="/seals/camtur.png"
-                    alt="Chamber of Tourism"
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-              </div>
-              <p className="mt-3 font-medium">Cámara de Turismo</p>
-            </div>
+<section className="py-20 bg-gray-50">
+  <div className="container mx-auto px-4">
+    <SectionHeading
+      title="Nuestras Certificaciones y Alianzas"
+      subtitle="Cumplimos con los más altos estándares del sector turístico"
+      center
+    />
+
+    <div className="flex flex-wrap justify-center gap-12 mt-12">
+      {/* 
+      <div className="text-center">
+        <div className="w-32 h-32 bg-white rounded-lg shadow-md flex items-center justify-center p-4">
+          <div className="relative w-full h-full">
+            <Image
+              src="/seals/iata.png"
+              alt="IATA Certification"
+              fill
+              className="object-contain"
+            />
           </div>
         </div>
-      </section>
+        <p className="mt-3 font-medium">Acreditación IATA</p>
+      </div>
+      */}
+
+      <div className="text-center">
+        <div className="w-32 h-32 bg-white rounded-lg shadow-md flex items-center justify-center p-4">
+          <div className="relative w-full h-full">
+            <Image
+              src="/seals/mintur.png"
+              alt="Ministry of Tourism"
+              fill
+              className="object-contain"
+            />
+          </div>
+        </div>
+        <p className="mt-3 font-medium">Ministerio de Turismo</p>
+      </div>
+
+      <div className="text-center">
+        <div className="w-32 h-32 bg-white rounded-lg shadow-md flex items-center justify-center p-4">
+          <div className="relative w-full h-full">
+            <Image
+              src="/seals/camtur.png"
+              alt="Chamber of Tourism"
+              fill
+              className="object-contain"
+            />
+          </div>
+        </div>
+        <p className="mt-3 font-medium">Cámara de Turismo</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 
       <WhatsAppButton />
     </main>
