@@ -28,7 +28,7 @@ export const siteConfig = {
     },
   ],
   links: {
-    instagram: "https://instagram.com/letsgotravel",
+    instagram: "https://www.instagram.com/letsgotravel_ss/",
     facebook: "https://www.facebook.com/lets.travelss",
     tiktok: "https://tiktok.com/@letsgotravel",
   },
