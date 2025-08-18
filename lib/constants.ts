@@ -30,7 +30,7 @@ export const siteConfig = {
   links: {
     instagram: "https://www.instagram.com/letsgotravel_ss/",
     facebook: "https://www.facebook.com/lets.travelss",
-    tiktok: "https://tiktok.com/@letsgotravel",
+    tiktok: "https://www.tiktok.com/@lets_go_travel_ss",
   },
   contact: {
     phone: "+593 999497250",

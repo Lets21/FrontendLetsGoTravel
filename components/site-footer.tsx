@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Facebook, Instagram, MapPin, Phone, Mail } from "lucide-react";
 import { siteConfig } from "@/lib/constants";
+import { FaTiktok } from "react-icons/fa";
+
 
 export function SiteFooter() {
   return (
@@ -34,6 +36,16 @@ export function SiteFooter() {
                 <Facebook size={20} />
                 <span className="sr-only">Facebook</span>
               </Link>
+              <Link
+  href={siteConfig.links.tiktok}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="text-white hover:text-gold-400 transition-colors"
+>
+  <FaTiktok size={20} />
+  <span className="sr-only">TikTok</span>
+</Link>
+
             </div>
           </div>
 
