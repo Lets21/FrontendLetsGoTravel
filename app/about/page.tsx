@@ -29,12 +29,12 @@ export default function AboutPage() {
             <div>
               <SectionHeading
                 title="Nuestra Historia"
-                subtitle="Cómo Let's Go Travel se convirtió en la agencia líder de Ecuador"
+                subtitle=""
               />
 
               <p className="text-gray-600 mb-4">
               
-Somos una agencia de viajes joven, apasionada e innovadora, nacida con el propósito de hacer realidad los sueños de quienes desean explorar el mundo.
+Somos una agencia de viajes joven, apasionada e innovadora, creada con el propósito de hacer realidad los sueños de quienes desean explorar el mundo.
               </p>
               <p className="text-gray-600 mb-4">
 En Lets Go Travel SS, creemos que cada persona merece vivir nuevas experiencias, descubrir otros destinos, culturas y paisajes, y que viajar debe ser una oportunidad accesible, emocionalmente enriquecedora y sostenible para todos.
