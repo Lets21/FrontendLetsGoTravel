@@ -29,7 +29,7 @@ export const siteConfig = {
   ],
   links: {
     instagram: "https://instagram.com/letsgotravel",
-    facebook: "https://facebook.com/letsgotravel",
+    facebook: "https://www.facebook.com/lets.travelss",
     tiktok: "https://tiktok.com/@letsgotravel",
   },
   contact: {
