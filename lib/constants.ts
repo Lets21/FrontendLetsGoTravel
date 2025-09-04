@@ -34,7 +34,7 @@ export const siteConfig = {
   },
   contact: {
     phone: "+593 999497250",
-    email: "letssgotravel@protonmail.com",
+    email: "info@letsgotravelss.com",
     whatsapp: "+593999497250",
     address: "Av. Eloy Alfaro y Fernando Ayarza, Quito, Ecuador",
   },
