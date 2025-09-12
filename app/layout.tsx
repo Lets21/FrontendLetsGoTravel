@@ -9,18 +9,64 @@ import { SiteFooter } from '@/components/site-footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
+// === Ajusta si tu dominio cambia ===
+const siteUrl = 'https://www.letsgotravelss.com.ec'; // con “ss”
+const siteName = 'Lets Go Travel SS';
+const siteDescription =
+  'Tu agencia de viajes premium en Ecuador, especializada en experiencias personalizadas a Sudamérica, Europa y más allá.';
+
 export const metadata: Metadata = {
-  title: "Lets Go Travel SS | Tu agencia de viajes premium en Ecuador",
-  description:
-    'Tu agencia de viajes premium en Ecuador, especializada en experiencias personalizadas a Sudamérica, Europa y más allá.',
+  title: `${siteName} | Tu agencia de viajes premium en Ecuador`,
+  description: siteDescription,
+  metadataBase: new URL(siteUrl),
+
+  // Favicons / App icons
   icons: {
     icon: [
       { url: '/favicon.ico?v=2', type: 'image/x-icon' },
       { url: '/favicon-32x32.png?v=2', sizes: '32x32', type: 'image/png' },
       { url: '/favicon-16x16.png?v=2', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon.svg?v=2', type: 'image/svg+xml' },
     ],
     apple: '/apple-icon.png?v=2',
     shortcut: '/favicon.ico?v=2',
+  },
+
+  // Open Graph
+  openGraph: {
+    type: 'website',
+    url: siteUrl,
+    siteName,
+    title: siteName,
+    description: siteDescription,
+    locale: 'es_EC',
+    images: [
+      {
+        url: '/og-image.png', // 1200x630 recomendado
+        width: 1200,
+        height: 630,
+        alt: `${siteName} - Agencia de Viajes`,
+      },
+    ],
+  },
+
+  // Twitter Cards
+  twitter: {
+    card: 'summary_large_image',
+    title: siteName,
+    description: siteDescription,
+    images: ['/og-image.png'],
+  },
+
+  // Opcional: Robots/Indexación
+  robots: {
+    index: true,
+    follow: true,
+  },
+
+  // Opcional: Alternates
+  alternates: {
+    canonical: siteUrl,
   },
   // manifest: '/site.webmanifest',
 };
@@ -30,9 +76,36 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // JSON-LD de Schema.org (TravelAgency)
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'TravelAgency',
+    name: siteName,
+    url: siteUrl,
+    logo: `${siteUrl}/logo.png`,
+    image: `${siteUrl}/og-image.png`,
+    description: siteDescription,
+    sameAs: [
+      // ajusta/añade tus redes reales
+      'https://www.facebook.com/letsgotravelss',
+      'https://www.instagram.com/letsgotravelss',
+    ],
+  };
+
   return (
-    <html lang="en">
+    <html lang="es">
       <head>
+        {/* Preconexiones sugeridas para rendimiento (opcional) */}
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+        {/* JSON-LD: datos estructurados */}
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+
         <style>{`
           @keyframes fadeUp {
             from { opacity: 0; transform: translateY(20px); }
@@ -52,10 +125,11 @@ export default function RootLayout({
           }
         `}</style>
       </head>
+
       <body className={cn(inter.className, 'min-h-screen bg-background antialiased')}>
         <SiteHeader />
 
-        {/* Separador para compensar el header fijo (ajusta si hace falta) */}
+        {/* Separador para compensar el header fijo */}
         <div className="h-20 md:h-28" />
 
         {children}
