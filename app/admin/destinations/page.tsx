@@ -126,6 +126,7 @@ export default function AdminDestinationsPage() {
       price: dest.price,
       duration: dest.duration,
       image: null, // no queremos cargar la URL como File
+      video: null,
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
