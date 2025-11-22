@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { apiFetch } from "@/lib/api";
 
 // Define el tipo del formulario
 type FormDataState = {
@@ -22,7 +23,7 @@ export default function AdminPanel() {
 
   useEffect(() => {
     // Cargar destinos
-    fetch("https://backendletsgotravel.onrender.com/api/destinations")
+    apiFetch("/api/destinations")
       .then(res => res.json())
       .then(data => setDestinations(data));
   }, []);
@@ -35,7 +36,7 @@ export default function AdminPanel() {
     form.append("price", formData.price);
     if (formData.image) form.append("image", formData.image);
 
-    const res = await fetch("https://backendletsgotravel.onrender.com/api/destinations", {
+    const res = await apiFetch("/api/destinations", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`
@@ -49,7 +50,7 @@ export default function AdminPanel() {
   };
 
   const handleDelete = async (id: string) => {
-    const res = await fetch(`https://backendletsgotravel.onrender.com/api/destinations/${id}`, {
+    const res = await apiFetch(`/api/destinations/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`

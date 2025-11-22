@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Facebook, Instagram, MapPin, Phone, Mail } from "lucide-react";
 import { siteConfig } from "@/lib/constants";
 import { FaTiktok } from "react-icons/fa";
@@ -93,6 +94,54 @@ export function SiteFooter() {
                 </a>
               </li>
             </ul>
+          </div>
+        </div>
+
+        <hr className="border-gray-800 my-8" />
+
+        {/* Partner Platforms Section */}
+        <div className="mb-8">
+          <h3 className="text-lg font-semibold mb-4 text-gold-500 text-center">Nuestras Plataformas</h3>
+          <div className="flex flex-wrap justify-center gap-4">
+            {/* LEOps Button */}
+            <a
+              href="https://leops.vercel.app/apps"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-3 px-6 py-3 bg-black hover:bg-gradient-to-r hover:from-gold-500 hover:to-gold-600 rounded-lg transition-all duration-300 shadow-lg hover:shadow-gold-500/50 border-2 border-gold-500"
+            >
+              <div className="w-12 h-12 flex items-center justify-center overflow-hidden">
+                <img 
+                  src="/favicon.svg" 
+                  alt="LEOps Logo" 
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div className="text-left">
+                <p className="font-bold text-gold-500 group-hover:text-black">LEOps</p>
+                <p className="text-xs text-gold-400 group-hover:text-black/80">Gestión Empresarial</p>
+              </div>
+            </a>
+
+            {/* FirstMile Button */}
+            <a
+              href="https://www.firstmile.com.ec/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-3 px-6 py-3 bg-black hover:bg-gradient-to-r hover:from-gold-500 hover:to-gold-600 rounded-lg transition-all duration-300 shadow-lg hover:shadow-gold-500/50 border-2 border-gold-500"
+            >
+              <div className="w-12 h-12 flex items-center justify-center overflow-hidden">
+                <img 
+                  src="/firstmile.jpeg" 
+                  alt="FirstMile Logo" 
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div className="text-left">
+                <p className="font-bold text-gold-500 group-hover:text-black">FirstMile</p>
+                <p className="text-xs text-gold-400 group-hover:text-black/80">Transfers y logística</p>
+              </div>
+            </a>
           </div>
         </div>
 

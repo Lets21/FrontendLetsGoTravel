@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { apiFetch } from "@/lib/api";
 
 // Define el tipo:
 interface Destino {
@@ -16,7 +17,7 @@ export function HomeDestinationsGrid() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("https://backendletsgotravel.onrender.com/api/destinations")
+    apiFetch("/api/destinations")
       .then(res => res.json())
       .then(data => setDestinos(data.slice(0, 3)))
       .catch(() => setError("No se pudieron cargar los destinos."));

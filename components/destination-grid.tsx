@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { DestinationCard } from "@/components/ui/destination-card";
+import { apiFetch } from "@/lib/api";
 
 type Destination = {
   _id: string;
@@ -23,7 +24,7 @@ export function DestinationGrid() {
 
   useEffect(() => {
     setLoading(true);
-    fetch("https://backendletsgotravel.onrender.com/api/destinations")
+    apiFetch("/api/destinations")
       .then(res => res.json())
       .then((data: Destination[]) => {
         setDestinationsData(data);

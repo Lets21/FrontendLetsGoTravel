@@ -57,7 +57,7 @@ const onSubmit = async (data: FormValues) => {
   let responseSuccess = false;
 
   try {
-    const response = await fetch("https://backendletsgotravel.onrender.com/api/contact", {
+    const response = await apiFetch("/api/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),

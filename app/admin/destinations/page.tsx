@@ -2,6 +2,7 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import { AdminNav } from "../AdminNav";
+import { apiFetch } from "@/lib/api";
 
 export default function AdminDestinationsPage() {
   const [destinations, setDestinations] = useState<any[]>([]);
@@ -12,6 +13,7 @@ export default function AdminDestinationsPage() {
     price: "",
     duration: "",
     image: null as File | null,
+    video: null as File | null,
   });
   const [editingId, setEditingId] = useState<string | null>(null);
   const [error, setError] = useState("");
@@ -31,7 +33,7 @@ export default function AdminDestinationsPage() {
   const fetchDestinations = async (token?: string) => {
     const adminToken = token || localStorage.getItem("adminToken");
     try {
-      const res = await fetch("https://backendletsgotravel.onrender.com/api/destinations", {
+      const res = await apiFetch("/api/destinations", {
         headers: { Authorization: `Bearer ${adminToken}` },
       });
       if (res.status === 401) {
@@ -52,7 +54,8 @@ export default function AdminDestinationsPage() {
     setError(""); setSuccess(""); setLoading(true);
 
     // Validación básica
-    if (!formData.name || !formData.country || !formData.description || !formData.price || !formData.duration || (!editingId && !formData.image)) {
+    // When creating a new destination require at least an image or a video
+    if (!formData.name || !formData.country || !formData.description || !formData.price || !formData.duration || (!editingId && !formData.image && !formData.video)) {
       setError("Por favor completa todos los campos obligatorios.");
       setLoading(false);
       return;
@@ -60,17 +63,21 @@ export default function AdminDestinationsPage() {
 
     const adminToken = localStorage.getItem("adminToken") || undefined;
     const form = new FormData();
-    for (const key in formData) {
-      // @ts-ignore
-      if (formData[key]) form.append(key, formData[key]);
-    }
+    // append fields (only existing values)
+    form.append("name", formData.name);
+    form.append("country", formData.country);
+    form.append("description", formData.description);
+    form.append("price", String(formData.price));
+    form.append("duration", formData.duration);
+    if (formData.image) form.append("image", formData.image);
+    if (formData.video) form.append("video", formData.video);
 
     const url = editingId
-      ? `https://backendletsgotravel.onrender.com/api/destinations/${editingId}`
-      : "https://backendletsgotravel.onrender.com/api/destinations";
+      ? `/api/destinations/${editingId}`
+      : "/api/destinations";
     const method = editingId ? "PUT" : "POST";
 
-    const res = await fetch(url, {
+    const res = await apiFetch(url, {
       method,
       body: form,
       headers: { Authorization: `Bearer ${adminToken}` },
@@ -97,7 +104,7 @@ export default function AdminDestinationsPage() {
   const handleDelete = async (id: string) => {
     if (!confirm("¿Seguro que quieres eliminar este destino?")) return;
     const adminToken = localStorage.getItem("adminToken") || undefined;
-    const res = await fetch(`https://backendletsgotravel.onrender.com/api/destinations/${id}`, {
+    const res = await apiFetch(`/api/destinations/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${adminToken}` },
     });
@@ -145,9 +152,12 @@ export default function AdminDestinationsPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
+    const file = files && files.length > 0 ? files[0] : null;
     setFormData((prev) => ({
       ...prev,
-      image: e.target.files && e.target.files.length > 0 ? e.target.files[0] : null,
+      // @ts-ignore
+      [name]: file,
     }));
   };
 
@@ -190,11 +200,15 @@ export default function AdminDestinationsPage() {
         <div className="md:col-span-2 flex items-center gap-4">
           <div>
             <label className="block mb-1 font-medium">{editingId ? "Nueva Imagen" : "Imagen *"}</label>
-            <input name="image" type="file" className="border p-2 rounded w-full" onChange={handleFileChange} />
+            <input name="image" type="file" accept="image/*" className="border p-2 rounded w-full" onChange={handleFileChange} />
           </div>
           {imagePreview && (
             <img src={imagePreview} alt="Preview" className="h-16 rounded shadow border" />
           )}
+        </div>
+        <div className="md:col-span-2 mt-2">
+          <label className="block mb-1 font-medium">Video (opcional)</label>
+          <input name="video" type="file" accept="video/*" className="border p-2 rounded w-full" onChange={handleFileChange} />
         </div>
         <div className="md:col-span-2 flex gap-3">
           <button type="submit" disabled={loading} className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition-all font-bold">

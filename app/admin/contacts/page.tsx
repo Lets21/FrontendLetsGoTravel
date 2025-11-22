@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { apiFetch } from "@/lib/api";
 
 interface Contact {
   _id: string;
@@ -20,8 +21,8 @@ export default function ContactsAdminPage() {
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const token = typeof window !== "undefined" ? localStorage.getItem("token") : "";
-        const res = await fetch("https://backendletsgotravel.onrender.com/api/contact", {
+        const token = typeof window !== "undefined" ? localStorage.getItem("adminToken") : "";
+        const res = await apiFetch("/api/contact", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

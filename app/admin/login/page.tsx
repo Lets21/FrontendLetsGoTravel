@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { apiFetch } from "@/lib/api";
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState("");
@@ -11,7 +12,7 @@ export default function AdminLoginPage() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setError("");
-    const res = await fetch("https://backendletsgotravel.onrender.com/api/auth/login", {
+    const res = await apiFetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
