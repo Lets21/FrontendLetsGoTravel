@@ -95,7 +95,7 @@ export default function AdminDestinationsPage() {
 
     setSuccess(editingId ? "Destino actualizado." : "Destino creado.");
     fetchDestinations(adminToken);
-    setFormData({ name: "", country: "", description: "", price: "", duration: "", image: null });
+    setFormData({ name: "", country: "", description: "", price: "", duration: "", image: null, video: null });
     setEditingId(null);
     setTimeout(() => setSuccess(""), 1500);
   };
@@ -133,7 +133,7 @@ export default function AdminDestinationsPage() {
   // ⬅️ Cancelar edición
   const handleCancel = () => {
     setEditingId(null);
-    setFormData({ name: "", country: "", description: "", price: "", duration: "", image: null });
+    setFormData({ name: "", country: "", description: "", price: "", duration: "", image: null, video: null });
     setError(""); setSuccess("");
   };
 
