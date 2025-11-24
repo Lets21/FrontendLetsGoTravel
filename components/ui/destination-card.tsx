@@ -29,7 +29,7 @@ export function DestinationCard({
 
   return (
     <div className="group relative overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 hover:shadow-xl h-full border border-gray-100">
-      <div className="relative h-64 w-full overflow-hidden">
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
         <Image
           src={imgSrc}
           alt={`Imagen del destino: ${name}`}
@@ -38,7 +38,7 @@ export function DestinationCard({
           className="object-cover transition-transform duration-500 group-hover:scale-110"
           priority={false}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
       </div>
 
       <div className="relative p-6 flex flex-col h-[280px]">

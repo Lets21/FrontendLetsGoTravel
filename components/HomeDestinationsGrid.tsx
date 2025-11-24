@@ -30,13 +30,12 @@ export function HomeDestinationsGrid() {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {destinos.map((dest) => (
         <div key={dest._id} className="group overflow-hidden rounded-lg bg-white shadow-md hover:shadow-xl transition-all duration-300">
-          <div className="relative h-64 w-full overflow-hidden">
+          <div className="relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
             {dest.imageUrl ?
               <Image src={dest.imageUrl} alt={dest.name} fill className="object-cover transition-transform duration-500 group-hover:scale-110" /> :
               <div className="bg-gray-200 w-full h-full flex items-center justify-center">Sin imagen</div>
             }
-            {/* Degradado sutil para mejorar visibilidad */}
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
           </div>
           <div className="p-6 bg-white">
             <h3 className="text-xl font-bold mb-2 text-gray-900">{dest.name}</h3>
