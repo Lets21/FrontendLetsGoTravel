@@ -29,17 +29,19 @@ export function HomeDestinationsGrid() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {destinos.map((dest) => (
-        <div key={dest._id} className="group relative overflow-hidden rounded-lg bg-white shadow-md">
+        <div key={dest._id} className="group overflow-hidden rounded-lg bg-white shadow-md hover:shadow-xl transition-all duration-300">
           <div className="relative h-64 w-full overflow-hidden">
             {dest.imageUrl ?
-              <Image src={dest.imageUrl} alt={dest.name} fill className="object-cover" /> :
+              <Image src={dest.imageUrl} alt={dest.name} fill className="object-cover transition-transform duration-500 group-hover:scale-110" /> :
               <div className="bg-gray-200 w-full h-full flex items-center justify-center">Sin imagen</div>
             }
+            {/* Degradado sutil para mejorar visibilidad */}
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30" />
           </div>
-          <div className="absolute bottom-0 w-full p-6 text-white">
-            <h3 className="text-xl font-bold mb-1">{dest.name}</h3>
-            <p className="text-sm text-white/80 mb-3">{dest.country}</p>
-            <p className="text-gold-400 font-semibold">Desde ${dest.price}</p>
+          <div className="p-6 bg-white">
+            <h3 className="text-xl font-bold mb-2 text-gray-900">{dest.name}</h3>
+            <p className="text-sm text-gray-600 mb-4">{dest.country}</p>
+            <p className="text-gold-600 font-bold text-lg">Desde ${dest.price}</p>
           </div>
         </div>
       ))}

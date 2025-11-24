@@ -38,7 +38,7 @@ export function DestinationCard({
           className="object-cover transition-transform duration-500 group-hover:scale-110"
           priority={false}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30" />
       </div>
 
       <div className="relative p-6 flex flex-col h-[280px]">

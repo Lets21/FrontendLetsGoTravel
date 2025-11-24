@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronRight } from "lucide-react";
@@ -36,6 +36,18 @@ export function HeroSection() {
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [isMuted, setIsMuted] = useState(true);
   const [showVolumeButton, setShowVolumeButton] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detectar si es móvil
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -80,7 +92,8 @@ export function HeroSection() {
       {videoUrl ? (
         <div className="absolute inset-0">
           <video 
-            className="w-full h-full object-cover" 
+            ref={videoRef}
+            className="w-full h-full object-cover"
             src={videoUrl} 
             autoPlay 
             muted={isMuted}
@@ -88,12 +101,12 @@ export function HeroSection() {
             playsInline
             controls={false}
           />
-          <div className="absolute inset-0 bg-black bg-opacity-30" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
           
           {/* Volume Control Button */}
           <button
             onClick={() => setIsMuted(!isMuted)}
-            className={`absolute bottom-32 right-8 z-20 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-500 ${
+            className={`absolute bottom-4 right-4 md:bottom-8 md:right-8 z-20 bg-black/50 hover:bg-black/70 text-white p-2 md:p-3 rounded-full transition-all duration-500 ${
               showVolumeButton ? 'opacity-100' : 'opacity-0 pointer-events-none'
             }`}
             aria-label={isMuted ? "Activar sonido" : "Silenciar"}
@@ -133,16 +146,16 @@ export function HeroSection() {
       )}
 
       {/* Content */}
-      <div className="relative z-10 flex h-full items-end justify-center text-center pb-24">
+      <div className="relative z-10 flex h-full items-end justify-center text-center pb-16 md:pb-24">
         <div className="container px-4">
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-2xl md:text-4xl font-bold text-white mb-3 opacity-0 animate-[fadeUp_1s_0.5s_forwards]">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4 drop-shadow-lg opacity-0 animate-[fadeUp_1s_0.5s_forwards]">
               {slides[currentSlide].title}
             </h1>
-            <p className="text-base md:text-lg text-white mb-5 opacity-0 animate-[fadeUp_1s_0.8s_forwards]">
+            <p className="text-base md:text-lg lg:text-xl text-white/95 mb-6 md:mb-8 drop-shadow-md opacity-0 animate-[fadeUp_1s_0.8s_forwards]">
               {slides[currentSlide].subtitle}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center opacity-0 animate-[fadeUp_1s_1.1s_forwards]">
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center opacity-0 animate-[fadeUp_1s_1.1s_forwards]">
               <Button
                 asChild
                 size="lg"
