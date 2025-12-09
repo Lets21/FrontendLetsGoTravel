@@ -22,9 +22,14 @@ export const metadata: Metadata = {
 
   // Favicons / App icons
   icons: {
-    icon: '/logo - Editado.png',
-    shortcut: '/logo - Editado.png',
-    apple: '/logo - Editado.png',
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/logo - Editado.png', type: 'image/png', sizes: '512x512' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
   },
 
   // Open Graph
@@ -37,9 +42,9 @@ export const metadata: Metadata = {
     locale: 'es_EC',
     images: [
       {
-        url: '/og-image.png', // 1200x630 recomendado
-        width: 1200,
-        height: 630,
+        url: `${siteUrl}/logo - Editado.png`, // Usar logo como imagen de previsualización
+        width: 512,
+        height: 512,
         alt: `${siteName} - Agencia de Viajes`,
       },
     ],
@@ -90,10 +95,10 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
-        {/* Favicon con timestamp para forzar actualización */}
-        <link rel="icon" type="image/png" href={`/ltlogo.png?t=${Date.now()}`} />
-        <link rel="shortcut icon" href={`/ltlogo.png?t=${Date.now()}`} />
-        <link rel="apple-touch-icon" href={`/ltlogo.png?t=${Date.now()}`} />
+        {/* Favicons para máxima compatibilidad */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/logo - Editado.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         
         {/* Preconexiones sugeridas para rendimiento (opcional) */}
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
