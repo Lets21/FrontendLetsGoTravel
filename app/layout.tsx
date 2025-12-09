@@ -22,14 +22,9 @@ export const metadata: Metadata = {
 
   // Favicons / App icons
   icons: {
-    icon: [
-      { url: '/favicon.ico?v=2', type: 'image/x-icon' },
-      { url: '/favicon-32x32.png?v=2', sizes: '32x32', type: 'image/png' },
-      { url: '/favicon-16x16.png?v=2', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon.svg?v=2', type: 'image/svg+xml' },
-    ],
-    apple: '/apple-icon.png?v=2',
-    shortcut: '/favicon.ico?v=2',
+    icon: '/logo - Editado.png',
+    shortcut: '/logo - Editado.png',
+    apple: '/logo - Editado.png',
   },
 
   // Open Graph
@@ -95,6 +90,11 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
+        {/* Favicon con timestamp para forzar actualización */}
+        <link rel="icon" type="image/png" href={`/ltlogo.png?t=${Date.now()}`} />
+        <link rel="shortcut icon" href={`/ltlogo.png?t=${Date.now()}`} />
+        <link rel="apple-touch-icon" href={`/ltlogo.png?t=${Date.now()}`} />
+        
         {/* Preconexiones sugeridas para rendimiento (opcional) */}
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
