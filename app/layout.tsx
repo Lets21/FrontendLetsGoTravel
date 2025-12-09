@@ -95,8 +95,9 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
-        {/* Google Search Console Verification */}
+        {/* Search Engine Verification */}
         <meta name="google-site-verification" content="uWlOtfIvEAIyV-m3v7iq8LcQPUVStYNz92xHqjJqbZs" />
+        <meta name="msvalidate.01" content="A6C7CDCCDC0F2D2DDC374D58D7ED0191" />
         
         {/* Favicons para máxima compatibilidad */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
