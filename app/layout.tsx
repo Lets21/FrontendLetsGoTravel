@@ -23,12 +23,12 @@ export const metadata: Metadata = {
   // Favicons / App icons
   icons: {
     icon: [
+      { url: '/Logofavicon.png', sizes: 'any' },
       { url: '/favicon.ico', sizes: 'any' },
-      { url: '/logo - Editado.png', type: 'image/png', sizes: '512x512' },
     ],
-    shortcut: '/favicon.ico',
+    shortcut: '/Logofavicon.png',
     apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+      { url: '/Logofavicon.png', sizes: '180x180', type: 'image/png' },
     ],
   },
 
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     locale: 'es_EC',
     images: [
       {
-        url: `${siteUrl}/logo - Editado.png`, // Usar logo como imagen de previsualización
+        url: `${siteUrl}/Logofavicon.png`, // Usar Logofavicon.png como imagen de previsualización
         width: 512,
         height: 512,
         alt: `${siteName} - Agencia de Viajes`,
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: siteName,
     description: siteDescription,
-    images: ['/og-image.png'],
+    images: ['/Logofavicon.png'],
   },
 
   // Opcional: Robots/Indexación
@@ -82,8 +82,8 @@ export default function RootLayout({
     '@type': 'TravelAgency',
     name: siteName,
     url: siteUrl,
-    logo: `${siteUrl}/logo.png`,
-    image: `${siteUrl}/og-image.png`,
+    logo: `${siteUrl}/Logofavicon.png`,
+    image: `${siteUrl}/Logofavicon.png`,
     description: siteDescription,
     sameAs: [
       // ajusta/añade tus redes reales
@@ -100,9 +100,9 @@ export default function RootLayout({
         <meta name="msvalidate.01" content="A6C7CDCCDC0F2D2DDC374D58D7ED0191" />
         
         {/* Favicons para máxima compatibilidad */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/logo - Editado.png" type="image/png" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="icon" href="/Logofavicon.png" sizes="any" />
+        <link rel="icon" href="/Logofavicon.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/Logofavicon.png" />
         
         {/* Preconexiones sugeridas para rendimiento (opcional) */}
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />

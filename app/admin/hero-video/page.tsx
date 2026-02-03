@@ -95,86 +95,235 @@ export default function AdminHeroVideoPage() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header Section */}
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
-        <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-800 to-gray-900">
-          Video Principal
-        </h1>
-        <p className="text-gray-600 mt-2">Gestiona el video de la página principal de tu sitio web</p>
+    <div className="max-w-4xl mx-auto space-y-6">
+      {/* Header */}
+      <div className="bg-slate-800 rounded-lg p-6 text-white">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold mb-1">Video Principal</h1>
+            <p className="text-slate-200 text-sm">Gestiona el video hero de tu página principal</p>
+          </div>
+          <div className="bg-white/5 rounded-md p-3 flex items-center gap-3">
+            <Video className="w-6 h-6 text-slate-200" />
+            <div>
+              <div className="text-xs text-slate-300">Estado</div>
+              <div className="font-medium text-sm">{videoUrl ? "Activo" : "Sin video"}</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Alert Messages */}
       {message && (
-        <div className={`p-4 rounded-xl border-l-4 ${
+        <div className={`rounded-md border overflow-hidden ${
           messageType === 'error' 
-            ? 'bg-red-50 border-red-500 text-red-700' 
-            : 'bg-green-50 border-green-500 text-green-700'
+            ? 'bg-red-50 border-red-200' 
+            : 'bg-emerald-50 border-emerald-200'
         }`}>
-          <p className="font-medium">{message}</p>
+          <div className={`p-3 flex items-center gap-3 ${
+            messageType === 'error' ? 'text-red-800' : 'text-emerald-800'
+          }`}>
+            <div className={`p-2 rounded-full ${
+              messageType === 'error' ? 'bg-red-100' : 'bg-emerald-100'
+            }`}>
+              {messageType === 'error' ? (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                </svg>
+              )}
+            </div>
+            <p className="font-medium text-sm">{message}</p>
+          </div>
         </div>
       )}
 
-      {/* Upload Form */}
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">Subir Nuevo Video</h2>
-        <form onSubmit={handleUpload} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Seleccionar video (MP4, WEBM - máx. 100MB)
-            </label>
-            <input 
-              type="file" 
-              accept="video/*" 
-              onChange={handleFile}
-              className="block w-full text-sm text-gray-600 file:mr-4 file:py-3 file:px-6 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-gradient-to-r file:from-gray-700 file:to-gray-900 file:text-white hover:file:from-gray-800 hover:file:to-black file:cursor-pointer cursor-pointer bg-gray-50 border border-gray-300 rounded-lg focus:border-gray-400 focus:ring-2 focus:ring-gray-200"
-            />
-            {file && (
-              <p className="mt-2 text-sm text-gray-600">Archivo seleccionado: <span className="text-gray-900 font-medium">{file.name}</span></p>
-            )}
-          </div>
-          
-          <div className="flex gap-3">
-            <button 
-              type="submit" 
-              disabled={loading || !file}
-              className="flex-1 bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-900 hover:to-black disabled:from-gray-300 disabled:to-gray-400 text-white disabled:text-gray-500 font-semibold px-6 py-3 rounded-lg transition-all shadow-md hover:shadow-lg disabled:shadow-none"
-            >
-              {loading ? '⏳ Subiendo...' : '📤 Subir Video'}
-            </button>
-            {videoUrl && (
-              <button 
-                type="button" 
-                onClick={handleDelete} 
-                disabled={loading}
-                className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 disabled:from-gray-300 disabled:to-gray-400 text-white disabled:text-gray-500 font-semibold px-6 py-3 rounded-lg transition-all shadow-md hover:shadow-lg"
+      {/* Upload Section */}
+      <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-100">
+          <h2 className="text-lg font-semibold text-gray-800">📤 Subir Nuevo Video</h2>
+          <p className="text-gray-600 mt-1 text-sm">Formatos soportados: MP4, WEBM • Tamaño máximo: 100MB</p>
+        </div>
+
+        <form onSubmit={handleUpload} className="p-6">
+          <div className="space-y-4">
+            {/* Drag and drop area */}
+            <div className="relative">
+              <input 
+                type="file" 
+                accept="video/*" 
+                onChange={handleFile}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                id="video-upload"
+              />
+              <label 
+                htmlFor="video-upload"
+                className={`block w-full p-6 border-2 border-dashed rounded-md text-center transition-all duration-150 cursor-pointer ${
+                  file 
+                    ? 'border-slate-300 bg-slate-50' 
+                    : 'border-gray-300 bg-white hover:border-slate-400'
+                }`}
               >
-                🗑️ Eliminar
-              </button>
+                <div className="space-y-4">
+                  <div className={`mx-auto w-14 h-14 rounded-md flex items-center justify-center ${
+                    file ? 'bg-slate-100' : 'bg-gray-50'
+                  }`}>
+                    {file ? (
+                      <svg className="w-7 h-7 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                      </svg>
+                    ) : (
+                      <svg className="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                      </svg>
+                    )}
+                  </div>
+                  
+                  {file ? (
+                    <div>
+                      <h3 className="text-base font-semibold text-slate-800">Archivo seleccionado</h3>
+                      <p className="text-slate-700 text-sm">{file.name}</p>
+                      <p className="text-sm text-slate-500 mt-1">
+                        Tamaño: {(file.size / 1024 / 1024).toFixed(2)} MB
+                      </p>
+                    </div>
+                  ) : (
+                    <div>
+                      <h3 className="text-base font-semibold text-gray-800">Arrastra tu video aquí</h3>
+                      <p className="text-gray-500 text-sm">o haz click para seleccionar un archivo</p>
+                    </div>
+                  )}
+                </div>
+              </label>
+            </div>
+
+            {/* File info */}
+            {file && (
+              <div className="bg-slate-50 border border-slate-100 rounded-md p-3">
+                <div className="flex items-start gap-3">
+                  <Video className="w-5 h-5 text-slate-700 mt-0.5" />
+                  <div className="flex-1">
+                    <div className="font-medium text-slate-800">Video seleccionado</div>
+                    <div className="text-sm text-slate-600 mt-1">
+                      <div><strong>Nombre:</strong> {file.name}</div>
+                      <div><strong>Tamaño:</strong> {(file.size / 1024 / 1024).toFixed(2)} MB</div>
+                      <div><strong>Tipo:</strong> {file.type}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             )}
+            
+            {/* Action buttons */}
+            <div className="flex gap-3 pt-3">
+              <button 
+                type="submit" 
+                disabled={loading || !file}
+                className="flex-1 relative bg-slate-700 hover:bg-slate-800 disabled:bg-slate-400 text-white font-semibold px-6 py-2 rounded-md transition-colors duration-150"
+              >
+                <div className="flex items-center justify-center gap-2">
+                  {loading ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      <span className="text-sm">Subiendo...</span>
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                      </svg>
+                      <span className="text-sm">Subir Video</span>
+                    </>
+                  )}
+                </div>
+              </button>
+
+              {videoUrl && (
+                <button 
+                  type="button" 
+                  onClick={handleDelete} 
+                  disabled={loading}
+                  className="bg-red-600 hover:bg-red-700 disabled:bg-red-300 text-white font-semibold px-4 py-2 rounded-md transition-colors duration-150"
+                >
+                  <div className="flex items-center gap-2">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    <span className="text-sm">Eliminar</span>
+                  </div>
+                </button>
+              )}
+            </div>
           </div>
         </form>
       </div>
 
       {/* Video Preview */}
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">Vista Previa</h2>
-        {videoUrl ? (
-          <div className="relative rounded-xl overflow-hidden shadow-lg border border-gray-200">
-            <video 
-              src={videoUrl} 
-              controls 
-              className="w-full rounded-xl"
-              style={{ maxHeight: '500px' }}
-            />
-          </div>
-        ) : (
-          <div className="text-center py-16 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border-2 border-dashed border-gray-300">
-            <Video className="mx-auto text-gray-400 mb-4" size={64} />
-            <p className="text-gray-700 text-lg font-medium">No hay video principal configurado</p>
-            <p className="text-gray-500 text-sm mt-2">Sube un video para mostrarlo en la página principal</p>
-          </div>
-        )}
+      <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+        <div className="bg-gradient-to-r from-gray-50 to-slate-50 px-8 py-6 border-b border-gray-100">
+          <h2 className="text-2xl font-bold text-gray-800">🎬 Vista Previa</h2>
+          <p className="text-gray-600 mt-1">Así se verá tu video en la página principal</p>
+        </div>
+
+        <div className="p-6">
+          {videoUrl ? (
+            <div className="relative">
+              {/* Video container */}
+              <div className="relative rounded-lg overflow-hidden shadow-sm border border-gray-100">
+                <video 
+                  src={videoUrl} 
+                  controls 
+                  className="w-full h-auto"
+                  style={{ maxHeight: '480px' }}
+                />
+                {/* Overlay de información */}
+                <div className="absolute top-3 right-3">
+                  <div className="bg-black/60 text-white px-2 py-1 rounded-md text-xs font-medium">
+                    Video Activo
+                  </div>
+                </div>
+              </div>
+
+              {/* Información del video */}
+              <div className="mt-4 bg-gray-50 rounded-md p-4">
+                <h3 className="font-medium text-gray-800 mb-2">Información del video</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <span className="text-gray-600">Estado: <span className="font-medium text-green-600">Publicado</span></span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Video className="w-4 h-4 text-slate-600" />
+                    <span className="text-gray-600">Formato: <span className="font-medium">Video Web</span></span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svg className="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="text-gray-600">Optimizado: <span className="font-medium text-slate-700">Sí</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="text-center py-12 bg-white rounded-md border-2 border-dashed border-gray-200">
+              <div className="w-20 h-20 mx-auto bg-gray-50 rounded-md flex items-center justify-center mb-4">
+                <Video className="w-10 h-10 text-gray-400" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">No hay video configurado</h3>
+              <p className="text-gray-500 text-sm mb-4">Sube un video para mostrarlo como hero en tu página principal</p>
+              <button
+                onClick={() => document.getElementById('video-upload')?.click()}
+                className="px-4 py-2 bg-slate-700 text-white rounded-md hover:bg-slate-800 transition-colors duration-150 font-semibold"
+              >
+                Subir Video
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

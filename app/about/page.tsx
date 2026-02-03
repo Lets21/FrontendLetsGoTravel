@@ -193,62 +193,7 @@ Porque al viajar, no solo descubres lugares: descubres lo lejos que puedes llega
 */}
 
 
-      {/* Certifications */}
-<section className="py-20 bg-gray-50">
-  <div className="container mx-auto px-4">
-    <SectionHeading
-      title="Nuestras Certificaciones y Alianzas"
-      subtitle="Cumplimos con los más altos estándares del sector turístico"
-      center
-    />
-
-    <div className="flex flex-wrap justify-center gap-12 mt-12">
-      {/* 
-      <div className="text-center">
-        <div className="w-32 h-32 bg-white rounded-lg shadow-md flex items-center justify-center p-4">
-          <div className="relative w-full h-full">
-            <Image
-              src="/seals/iata.png"
-              alt="IATA Certification"
-              fill
-              className="object-contain"
-            />
-          </div>
-        </div>
-        <p className="mt-3 font-medium">Acreditación IATA</p>
-      </div>
-      */}
-
-      <div className="text-center">
-        <div className="w-32 h-32 bg-white rounded-lg shadow-md flex items-center justify-center p-4">
-          <div className="relative w-full h-full">
-            <Image
-              src="/seals/mintur.png"
-              alt="Ministry of Tourism"
-              fill
-              className="object-contain"
-            />
-          </div>
-        </div>
-        <p className="mt-3 font-medium">Ministerio de Turismo</p>
-      </div>
-
-      <div className="text-center">
-        <div className="w-32 h-32 bg-white rounded-lg shadow-md flex items-center justify-center p-4">
-          <div className="relative w-full h-full">
-            <Image
-              src="/seals/camtur.png"
-              alt="Chamber of Tourism"
-              fill
-              className="object-contain"
-            />
-          </div>
-        </div>
-        <p className="mt-3 font-medium">Cámara de Turismo</p>
-      </div>
-    </div>
-  </div>
-</section>
+     
 
 
       <WhatsAppButton />

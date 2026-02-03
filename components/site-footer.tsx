@@ -105,14 +105,14 @@ export function SiteFooter() {
           <div className="flex flex-wrap justify-center gap-4">
             {/* LEOps Button */}
             <a
-              href="https://leops.vercel.app/apps"
+              href="https://www.leops-tech.com/apps"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex items-center gap-3 px-6 py-3 bg-black hover:bg-gradient-to-r hover:from-gold-500 hover:to-gold-600 rounded-lg transition-all duration-300 shadow-lg hover:shadow-gold-500/50 border-2 border-gold-500"
             >
               <div className="w-12 h-12 flex items-center justify-center overflow-hidden">
                 <img 
-                  src="/leops.svg" 
+                  src="/logo-leops.png" 
                   alt="LEOps Logo" 
                   className="w-full h-full object-contain"
                 />
@@ -132,7 +132,7 @@ export function SiteFooter() {
             >
               <div className="w-12 h-12 flex items-center justify-center overflow-hidden">
                 <img 
-                  src="/firstmile.jpeg" 
+                  src="/logofirst.png" 
                   alt="FirstMile Logo" 
                   className="w-full h-full object-contain"
                 />
