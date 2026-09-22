@@ -19,7 +19,6 @@ export default function AdminDestinationsPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
-  const [draggedId, setDraggedId] = useState<string | null>(null);
   const router = useRouter();
 
   // 🚫 Redirección si no hay token
@@ -115,116 +114,6 @@ export default function AdminDestinationsPage() {
       return;
     }
     fetchDestinations(adminToken);
-  };
-
-  // 🔄 Mover destino arriba o abajo
-  const handleMoveDestination = async (id: string, direction: "up" | "down") => {
-    const adminToken = localStorage.getItem("adminToken") || undefined;
-    try {
-      const res = await apiFetch(`/api/destinations/${id}/move`, {
-        method: "PATCH",
-        body: JSON.stringify({ direction }),
-        headers: { 
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${adminToken}`
-        },
-      });
-      if (res.status === 401) {
-        localStorage.removeItem("adminToken");
-        router.push("/admin/login");
-        return;
-      }
-      if (!res.ok) {
-        const errorData = await res.json();
-        setError(errorData.error || "Error al mover destino.");
-        setTimeout(() => setError(""), 3000);
-        return;
-      }
-      const data = await res.json();
-      setDestinations(data);
-      setSuccess(`Destino movido ${direction === "up" ? "hacia arriba" : "hacia abajo"}.`);
-      setTimeout(() => setSuccess(""), 1500);
-    } catch (e) {
-      setError("Error al mover destino.");
-    }
-  };
-
-  // 🎯 Funciones para Drag and Drop
-  const handleDragStart = (e: React.DragEvent<HTMLTableRowElement>, id: string) => {
-    setDraggedId(id);
-    e.dataTransfer.effectAllowed = "move";
-  };
-
-  const handleDragOver = (e: React.DragEvent<HTMLTableRowElement>) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = "move";
-  };
-
-  const handleDrop = async (e: React.DragEvent<HTMLTableRowElement>, targetId: string) => {
-    e.preventDefault();
-    
-    if (!draggedId || draggedId === targetId) {
-      setDraggedId(null);
-      return;
-    }
-
-    const draggedIndex = destinations.findIndex(d => d._id === draggedId);
-    const targetIndex = destinations.findIndex(d => d._id === targetId);
-
-    if (draggedIndex === -1 || targetIndex === -1) {
-      setDraggedId(null);
-      return;
-    }
-
-    // Crear una copia del array y reordenar
-    const newDestinations = [...destinations];
-    const [draggedItem] = newDestinations.splice(draggedIndex, 1);
-    newDestinations.splice(targetIndex, 0, draggedItem);
-
-    // Actualizar localmente primero para respuesta rápida
-    setDestinations(newDestinations);
-    setDraggedId(null);
-
-    // Enviar al backend
-    const adminToken = localStorage.getItem("adminToken") || undefined;
-    try {
-      const res = await apiFetch(`/api/destinations/reorder/bulk`, {
-        method: "POST",
-        body: JSON.stringify({ 
-          destinations: newDestinations.map(d => d._id)
-        }),
-        headers: { 
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${adminToken}`
-        },
-      });
-
-      if (res.status === 401) {
-        localStorage.removeItem("adminToken");
-        router.push("/admin/login");
-        return;
-      }
-
-      if (!res.ok) {
-        setError("Error al reordenar destinos.");
-        // Revertir cambios si hay error
-        fetchDestinations(adminToken);
-        setTimeout(() => setError(""), 3000);
-        return;
-      }
-
-      const data = await res.json();
-      setDestinations(data);
-      setSuccess("Destinos reordenados correctamente.");
-      setTimeout(() => setSuccess(""), 1500);
-    } catch (e) {
-      setError("Error al reordenar destinos.");
-      fetchDestinations(adminToken);
-    }
-  };
-
-  const handleDragEnd = () => {
-    setDraggedId(null);
   };
 
   // ✏️ Cargar datos en el formulario para editar
@@ -532,104 +421,62 @@ export default function AdminDestinationsPage() {
             </button>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-slate-100 border-b-2 border-slate-200">
-                  <th className="px-6 py-4 text-left text-xs font-black text-slate-900 uppercase tracking-wider">Imagen</th>
-                  <th className="px-6 py-4 text-left text-xs font-black text-slate-900 uppercase tracking-wider">Destino</th>
-                  <th className="px-6 py-4 text-left text-xs font-black text-slate-900 uppercase tracking-wider">País</th>
-                  <th className="px-6 py-4 text-left text-xs font-black text-slate-900 uppercase tracking-wider">Descripción</th>
-                  <th className="px-6 py-4 text-center text-xs font-black text-slate-900 uppercase tracking-wider">Precio</th>
-                  <th className="px-6 py-4 text-center text-xs font-black text-slate-900 uppercase tracking-wider">Duración</th>
-                  <th className="px-6 py-4 text-center text-xs font-black text-slate-900 uppercase tracking-wider">Acciones</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-200">
-                {destinations.map((dest) => (
-                  <tr 
-                    key={dest._id} 
-                    draggable
-                    onDragStart={(e) => handleDragStart(e, dest._id)}
-                    onDragOver={handleDragOver}
-                    onDrop={(e) => handleDrop(e, dest._id)}
-                    onDragEnd={handleDragEnd}
-                    className={`hover:bg-slate-50 transition-all cursor-move ${
-                      draggedId === dest._id 
-                        ? "bg-blue-100 opacity-50" 
-                        : ""
-                    }`}
-                  >                    {/* Imagen pequeña */}
-                    <td className="px-6 py-4">
-                      <div className="w-20 h-20 rounded-lg overflow-hidden bg-slate-100 flex-shrink-0">
-                        {dest.imageUrl ? (
-                          <img
-                            src={dest.imageUrl}
-                            alt={dest.name}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <svg className="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                          </div>
-                        )}
-                      </div>
-                    </td>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-8">
+            {destinations.map((dest) => (
+              <div key={dest._id} className="group bg-white border-2 border-slate-200 rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                {/* Imagen */}
+                <div className="relative h-52 bg-gradient-to-br from-slate-100 to-slate-200 overflow-hidden">
+                  {dest.imageUrl ? (
+                    <img
+                      src={dest.imageUrl}
+                      alt={dest.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <svg className="w-16 h-16 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                  )}
+                  <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-black text-slate-800 shadow-lg">
+                    {dest.country}
+                  </div>
+                  <div className="absolute top-4 right-4 bg-slate-900 text-white px-4 py-2 rounded-full text-sm font-black shadow-lg">
+                    ${dest.price}
+                  </div>
+                </div>
 
-                    {/* Nombre */}
-                    <td className="px-6 py-4">
-                      <h3 className="text-sm font-black text-slate-900 tracking-tight">{dest.name}</h3>
-                    </td>
+                {/* Contenido */}
+                <div className="p-6">
+                  <h3 className="text-xl font-black text-slate-900 mb-3 line-clamp-1 tracking-tight">{dest.name}</h3>
+                  <p className="text-slate-600 text-sm mb-4 line-clamp-2 leading-relaxed font-medium">{dest.description}</p>
+                  
+                  <div className="flex items-center gap-3 mb-6">
+                    <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="text-sm text-slate-700 font-bold">{dest.duration}</span>
+                  </div>
 
-                    {/* País */}
-                    <td className="px-6 py-4">
-                      <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-xs font-bold rounded-full">{dest.country}</span>
-                    </td>
-
-                    {/* Descripción */}
-                    <td className="px-6 py-4">
-                      <p className="text-xs text-slate-600 line-clamp-2">{dest.description}</p>
-                    </td>
-
-                    {/* Precio */}
-                    <td className="px-6 py-4 text-center">
-                      <span className="inline-block px-3 py-1 bg-green-100 text-green-800 text-sm font-black rounded">${dest.price}</span>
-                    </td>
-
-                    {/* Duración */}
-                    <td className="px-6 py-4 text-center">
-                      <span className="text-xs font-bold text-slate-700">{dest.duration}</span>
-                    </td>
-
-                    {/* Acciones */}
-                    <td className="px-6 py-4">
-                      <div className="flex gap-2 justify-center">
-                        <button
-                          onClick={() => handleEdit(dest)}
-                          className="p-2 bg-slate-700 hover:bg-slate-800 text-white rounded-lg transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-110"
-                          title="Editar"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                          </svg>
-                        </button>
-                        <button
-                          onClick={() => handleDelete(dest._id)}
-                          className="p-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-110"
-                          title="Eliminar"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                  {/* Botones de acción */}
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => handleEdit(dest)}
+                      className="flex-1 bg-slate-700 hover:bg-slate-800 text-white px-4 py-3 rounded-xl transition-all duration-300 font-black text-sm shadow-lg hover:shadow-xl transform hover:scale-105"
+                    >
+                      Editar
+                    </button>
+                    <button
+                      onClick={() => handleDelete(dest._id)}
+                      className="flex-1 bg-red-600 hover:bg-red-700 text-white px-4 py-3 rounded-xl transition-all duration-300 font-black text-sm shadow-lg hover:shadow-xl transform hover:scale-105"
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

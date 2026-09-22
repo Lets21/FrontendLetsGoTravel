@@ -33,7 +33,7 @@ export function SiteHeader() {
           <div className="md:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 leading-tight text-center">
             <span className="block text-sm font-semibold tracking-wide">
               LETS<span className="text-gold-500">GO</span>TRAVEL{" "}
-              <span className="text-gold-500">SS</span>
+              <span className="text-gold-500">& SS</span>
             </span>
             <span className="block text-[11px] text-white/70">
               Tu Agencia de Viajes
