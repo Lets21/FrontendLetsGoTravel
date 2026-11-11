@@ -1,105 +1,113 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
-import { CreditCard, DollarSign, Calculator } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowRight, MessageCircle } from "lucide-react";
+import { siteConfig } from "@/lib/constants";
+import { money, whatsappLink } from "@/lib/destinations";
+import { Reveal } from "@/components/reveal";
+import { cn } from "@/lib/utils";
+
+const TERMS = [3, 6, 12, 24];
 
 export function FinancingSection() {
+  const [price, setPrice] = useState(1500);
+  const [months, setMonths] = useState(12);
+  const cuota = price / months;
+  const pct = ((price - 500) / (10000 - 500)) * 100;
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-      <div>
-        <h3 className="text-2xl font-bold mb-4">Viaja Ahora, Paga Después</h3>
-        <p className="text-gray-600 mb-6">
-          Sabemos que viajar es una inversión. Por eso, nos hemos aliado con los principales bancos y entidades financieras para ofrecerte opciones de financiamiento flexibles que hacen realidad tus vacaciones soñadas.
+    <div className="grid items-center gap-12 lg:grid-cols-2">
+      <Reveal>
+        <p className="eyebrow mb-3">Viaja ahora, paga después</p>
+        <h2 className="mb-5 font-display text-4xl leading-[1.05] text-ink md:text-5xl">
+          Calcula tu cuota <em className="italic text-gold-700">en segundos.</em>
+        </h2>
+        <p className="mb-8 max-w-lg text-lg leading-relaxed text-stone-600">
+          Mueve el valor de tu viaje y elige el plazo, de 3 hasta 24 meses. Trabajamos con los
+          principales bancos del país para que tus vacaciones no esperen.
         </p>
-        
-        <div className="space-y-4 mb-8">
-          <div className="flex items-start">
-            <div className="mt-1 bg-gold-100 p-2 rounded-full text-gold-600 mr-4">
-              <CreditCard size={20} />
+        <div className="mb-8 grid max-w-lg grid-cols-2 gap-3">
+          {siteConfig.banks.map((b) => (
+            <div
+              key={b.name}
+              className="flex items-center gap-3 rounded-2xl border border-stone-200 bg-white p-3 transition-all duration-300 hover:-translate-y-0.5 hover:border-gold-300 hover:shadow-md"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={b.logo} alt="" aria-hidden="true" className="h-9 w-9 shrink-0 object-contain" loading="lazy" />
+              <span className="text-sm font-bold text-ink">{b.name}</span>
             </div>
-            <div>
-              <h4 className="font-semibold mb-1">Cuotas Sin Intereses</h4>
-              <p className="text-gray-600">Divide el costo de tu viaje en 3 a 6 meses sin pagar intereses.</p>
-            </div>
-          </div>
-          
-          <div className="flex items-start">
-            <div className="mt-1 bg-gold-100 p-2 rounded-full text-gold-600 mr-4">
-              <DollarSign size={20} />
-            </div>
-            <div>
-              <h4 className="font-semibold mb-1">Pagos Mensuales Bajos</h4>
-              <p className="text-gray-600">Financia tus vacaciones con cuotas desde tan solo $95 al mes.</p>
-            </div>
-          </div>
-          
-          <div className="flex items-start">
-            <div className="mt-1 bg-gold-100 p-2 rounded-full text-gold-600 mr-4">
-              <Calculator size={20} />
-            </div>
-            <div>
-              <h4 className="font-semibold mb-1">Planes Personalizados</h4>
-              <p className="text-gray-600">Trabajaremos contigo para encontrar un plan que se ajuste a tu presupuesto.</p>
-            </div>
-          </div>
+          ))}
         </div>
-        
-        <Button
-          asChild
-          className="bg-gold-500 hover:bg-gold-600 text-black font-medium"
-        >
-          <Link href="/financing">Conoce Más Sobre el Financiamiento</Link>
-        </Button>
-      </div>
-      
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h3 className="text-xl font-bold mb-6 text-center">Ejemplos de Planes de Pago</h3>
-        
-        <div className="space-y-6">
-          <div className="border-b border-gray-200 pb-6">
-            <h4 className="text-lg font-semibold mb-2">Aventura Europea</h4>
-            <p className="text-gray-600 mb-3">10 días en París, Roma y Barcelona</p>
-            <div className="flex justify-between mb-1">
-              <span>Precio total del paquete:</span>
-              <span className="font-semibold">$2,400</span>
-            </div>
-            <div className="flex justify-between text-gold-600">
-              <span>Pago mensual (12 meses):</span>
-              <span className="font-bold">$200/mes</span>
-            </div>
+        <Link href="/financing" className="group inline-flex items-center gap-2 font-bold text-ink underline-offset-4 hover:underline">
+          Cómo funciona el financiamiento
+          <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+        </Link>
+      </Reveal>
+
+      <Reveal delay={150}>
+        <div className="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-[0_40px_80px_-40px_rgba(14,14,12,.4)] sm:p-9">
+          <label htmlFor="valor-viaje" className="flex items-baseline justify-between gap-4 font-bold text-stone-600">
+            Valor del viaje
+            <span className="text-3xl font-extrabold text-ink">{money(price)}</span>
+          </label>
+          <input
+            id="valor-viaje"
+            type="range"
+            min={500}
+            max={10000}
+            step={50}
+            value={price}
+            onChange={(e) => setPrice(Number(e.target.value))}
+            className="range-gold mt-5 w-full"
+            style={{ background: `linear-gradient(90deg, #D4AF37 ${pct}%, #E7E1D3 ${pct}%)` }}
+          />
+          <div className="mt-2 flex justify-between text-xs text-stone-500">
+            <span>$500</span>
+            <span>$10.000</span>
           </div>
-          
-          <div className="border-b border-gray-200 pb-6">
-            <h4 className="text-lg font-semibold mb-2">Explorador Galápagos</h4>
-            <p className="text-gray-600 mb-3">7 días navegando por las Islas Galápagos</p>
-            <div className="flex justify-between mb-1">
-              <span>Precio total del paquete:</span>
-              <span className="font-semibold">$1,900</span>
-            </div>
-            <div className="flex justify-between text-gold-600">
-              <span>Pago mensual (12 meses):</span>
-              <span className="font-bold">$158/mes</span>
-            </div>
+
+          <p className="mb-3 mt-7 font-bold text-stone-600">Plazo</p>
+          <div className="grid grid-cols-4 gap-2" role="group" aria-label="Plazo en meses">
+            {TERMS.map((m) => (
+              <button
+                key={m}
+                type="button"
+                onClick={() => setMonths(m)}
+                aria-pressed={months === m}
+                className={cn(
+                  "min-h-[48px] rounded-xl border text-sm font-bold transition-all duration-300",
+                  months === m ? "border-ink bg-ink text-white" : "border-stone-300 text-ink hover:border-ink"
+                )}
+              >
+                {m} meses
+              </button>
+            ))}
           </div>
-          
-          <div>
-            <h4 className="text-lg font-semibold mb-2">Escapada Caribeña</h4>
-            <p className="text-gray-600 mb-3">5 días en resort todo incluido en Punta Cana</p>
-            <div className="flex justify-between mb-1">
-              <span>Precio total del paquete:</span>
-              <span className="font-semibold">$1,140</span>
+
+          <div className="mt-7 flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-ink p-6 text-white">
+            <div>
+              <p className="text-sm text-white/60">Tu cuota mensual referencial</p>
+              <p key={`${price}-${months}`} className="animate-fade-up font-display text-5xl text-gold-300 [animation-duration:.4s]">
+                {money(cuota)}
+              </p>
             </div>
-            <div className="flex justify-between text-gold-600">
-              <span>Pago mensual (12 meses):</span>
-              <span className="font-bold">$95/mes</span>
-            </div>
+            <a
+              href={whatsappLink(
+                `¡Hola! Quiero financiar un viaje de ${money(price)} a ${months} meses (cuota aprox. ${money(cuota)}). ¿Me ayudan?`
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-pill bg-gold-500 text-ink hover:bg-gold-400"
+            >
+              <MessageCircle size={18} /> Quiero este plan
+            </a>
           </div>
+          <p className="mt-4 text-xs text-stone-500">
+            Valor referencial sin intereses. La cuota final depende del banco y está sujeta a aprobación crediticia.
+          </p>
         </div>
-        
-        <div className="mt-8 text-center text-sm text-gray-500">
-          <p>Financiamiento disponible a través de nuestros bancos aliados. Sujeto a aprobación crediticia.</p>
-        </div>
-      </div>
+      </Reveal>
     </div>
   );
-}                                                                                                                                                                                                                                                                                        
+}

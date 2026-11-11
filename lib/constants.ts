@@ -33,10 +33,10 @@ export const siteConfig = {
     tiktok: "https://www.tiktok.com/@lets_go_travel_ss",
   },
   contact: {
-    phone: "+593 999497250",
+    phone: "+593 960152807",
     email: "info@letsgotravelss.com",
-    whatsapp: "+593999497250",
-    address: "Av. Eloy Alfaro y Fernando Ayarza, Quito, Ecuador",
+    whatsapp: "+593960152807",
+    address: "Av. Napo  y  Sangay, Quito, Ecuador",
   },
   destinations: [
     {
@@ -171,7 +171,8 @@ export const siteConfig = {
   testimonials: [
     {
       id: 1,
-      name: "Esteban Enriquez",
+      name: "Esteban Enríquez",
+      trip: "Panamá en pareja",
       location: "Quito, Ecuador",
       testimonial: "Viajamos en pareja a Panamá durante 4 días y 3 noches y tuvimos una muy buena experiencia. Conocimos el Canal de Panamá, recorrimos varios centros comerciales y disfrutamos mucho de la ciudad.",
       rating: 4,
@@ -179,6 +180,7 @@ export const siteConfig = {
     {
       id: 2,
       name: "Bryan Ontaneda",
+      trip: "Italia · viaje religioso",
       location: "Loja, Ecuador",
       testimonial: "Realizamos un viaje a Italia de carácter religioso y contamos con el acompañamiento de Let's Go Travel durante todo el proceso. Nos ayudaron con la gestión del visado, la organización del viaje y el hospedaje en destino, facilitándonos cada etapa para que pudiéramos viajar con tranquilidad. La atención y el seguimiento fueron muy buenos y la experiencia resultó muy especial para nosotros.",
       rating: 5,
@@ -186,13 +188,15 @@ export const siteConfig = {
     {
       id: 3,
       name: "Viviana Sinchiguano",
-      location: "Malaga, España",
+      trip: "Ecuador · Cotopaxi y Quito",
+      location: "Málaga, España",
       testimonial: "Viajé desde Málaga, España, a Quito para disfrutar de mis vacaciones y fue una experiencia increíble. Durante mi estancia pude conocer lugares emblemáticos como el Cotopaxi, la Mitad del Mundo y el Centro Histórico de Quito, además de otros atractivos turísticos. La organización del viaje me permitió aprovechar muy bien cada día y descubrir diferentes rincones de Ecuador. Me llevo recuerdos maravillosos de este viaje.",
       rating: 4,
     },
     {
       id: 4,
       name: "Paola Calvache",
+      trip: "Galápagos en familia",
       location: "Quito, Ecuador",
       testimonial: "Viajamos en familia a Galápagos y fue una experiencia increíble. Tuvimos la oportunidad de conocer las islas Santa Cruz y San Cristóbal, realizar varias excursiones y disfrutar de paisajes realmente únicos. Todo el viaje fue muy especial, desde las actividades hasta la comida y los momentos compartidos en familia. Nos llevamos recuerdos maravillosos de Galápagos y disfrutamos muchísimo cada día.",
       rating: 4,

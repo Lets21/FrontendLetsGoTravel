@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { PageHero } from "@/components/ui/page-hero";
 import Link from "next/link";
 import { Calculator, Ban as Bank, CreditCard, Calendar } from "lucide-react";
 
@@ -16,17 +17,13 @@ export const metadata = {
 export default function FinancingPage() {
   return (
     <main>
-      {/* Hero Section */}
-      <section className="relative h-[40vh] min-h-[300px] bg-black">
-        <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/6694543/pexels-photo-6694543.jpeg')] bg-cover bg-center opacity-70"></div>
-        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-        <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center text-white text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Viaja Ahora, Paga Después</h1>
-          <p className="text-xl max-w-2xl mx-auto">
-            Opciones de financiamiento flexibles para hacer realidad tus vacaciones soñadas
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Financiamiento"
+        title="Viaja ahora,"
+        accent="paga después"
+        subtitle="Opciones de financiamiento flexibles para hacer realidad tus vacaciones soñadas"
+        image="https://images.pexels.com/photos/6694543/pexels-photo-6694543.jpeg?auto=compress&cs=tinysrgb&w=1920"
+      />
 
       {/* Intro Section */}
       <section className="py-20">

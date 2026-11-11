@@ -1,13 +1,20 @@
 // app/layout.tsx
 import './globals.css';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { DM_Serif_Display, Manrope } from 'next/font/google';
 
 import { cn } from '@/lib/utils';
 import { SiteHeader } from '@/components/site-header';
 import { SiteFooter } from '@/components/site-footer';
 
-const inter = Inter({ subsets: ['latin'] });
+const sans = Manrope({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
+const display = DM_Serif_Display({
+  subsets: ['latin'],
+  weight: '400',
+  style: ['normal', 'italic'],
+  variable: '--font-display',
+  display: 'swap',
+});
 
 // === Ajusta si tu dominio cambia ===
 const siteUrl = 'https://www.letsgotravelss.com.ec'; // con “ss”
@@ -135,11 +142,9 @@ export default function RootLayout({
         `}</style>
       </head>
 
-      <body className={cn(inter.className, 'min-h-screen bg-background antialiased')}>
+      <body className={cn(sans.variable, display.variable, 'font-sans min-h-screen bg-cream text-ink antialiased')}>
+        {/* El header incluye su propio separador (excepto en el inicio, donde va sobre el hero) */}
         <SiteHeader />
-
-        {/* Separador para compensar el header fijo */}
-        <div className="h-20 md:h-28" />
 
         {children}
 

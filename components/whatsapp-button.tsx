@@ -2,33 +2,52 @@
 
 import { useEffect, useState } from "react";
 import { MessageCircle } from "lucide-react";
-import { siteConfig } from "@/lib/constants";
+import { whatsappLink } from "@/lib/destinations";
+import { cn } from "@/lib/utils";
 
-export function WhatsAppButton() {
-  const [isVisible, setIsVisible] = useState(false);
+interface WhatsAppButtonProps {
+  message?: string;
+}
+
+export function WhatsAppButton({
+  message = "¡Hola! Me gustaría obtener información sobre paquetes de viaje.",
+}: WhatsAppButtonProps) {
+  const [visible, setVisible] = useState(false);
+  const [expanded, setExpanded] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 2000);
-
-    return () => clearTimeout(timer);
+    const t1 = setTimeout(() => setVisible(true), 1500);
+    // La etiqueta se recoge sola al hacer scroll para no tapar contenido
+    const onScroll = () => setExpanded(window.scrollY < 600);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      clearTimeout(t1);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
-  const handleWhatsAppClick = () => {
-    const message = encodeURIComponent("¡Hola! Me gustaría obtener información sobre paquetes de viaje.");
-    window.open(`https://wa.me/${siteConfig.contact.whatsapp}?text=${message}`, "_blank");
-  };
-
   return (
-    <button
-      onClick={handleWhatsAppClick}
-      className={`fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg transition-all duration-500 transform ${
-        isVisible ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0"
-      }`}
+    <a
+      href={whatsappLink(message)}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Escríbenos por WhatsApp"
+      onMouseEnter={() => setExpanded(true)}
+      className={cn(
+        "group fixed bottom-5 right-5 z-40 flex h-14 items-center gap-2 overflow-hidden rounded-full bg-[#25D366] pl-4 text-[#0B2E17] shadow-xl transition-all duration-500 hover:bg-[#20bd5a] md:bottom-6 md:right-6",
+        visible ? "translate-y-0 opacity-100 animate-wa-pulse" : "pointer-events-none translate-y-16 opacity-0",
+        expanded ? "pr-5" : "pr-4"
+      )}
     >
-      <MessageCircle size={24} />
-      <span className="sr-only">Contactar por WhatsApp</span>
-    </button>
+      <MessageCircle size={24} className="shrink-0" />
+      <span
+        className={cn(
+          "whitespace-nowrap font-bold transition-all duration-500",
+          expanded ? "max-w-[160px] opacity-100" : "max-w-0 opacity-0"
+        )}
+      >
+        ¿Te ayudamos?
+      </span>
+    </a>
   );
 }

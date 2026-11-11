@@ -7,13 +7,13 @@ import { FaTiktok } from "react-icons/fa";
 
 export function SiteFooter() {
   return (
-    <footer className="bg-black text-white pt-16 pb-8">
-      <div className="container mx-auto">
+    <footer className="bg-ink text-white pt-20 pb-24 md:pb-10">
+      <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Logo and About */}
           <div>
             <Link href="/" className="inline-block mb-4">
-              <h2 className="text-2xl font-bold text-gold-500">{siteConfig.name}</h2>
+              <h2 className="font-display text-3xl text-gold-400">{siteConfig.name}</h2>
             </Link>
             <p className="text-gray-300 mb-4">
               Tu agencia de viajes premium en Ecuador, especializada en experiencias personalizadas por Sudamérica, Europa y más allá.

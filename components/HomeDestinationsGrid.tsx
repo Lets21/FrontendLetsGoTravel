@@ -1,49 +1,98 @@
-'use client';
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import { apiFetch } from "@/lib/api";
+"use client";
 
-// Define el tipo:
-interface Destino {
-  _id: string;
-  name: string;
-  country: string;
-  imageUrl?: string;
-  price: number;
-}
+import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { apiFetch } from "@/lib/api";
+import { type Destino, type Region, REGIONS, regionOf } from "@/lib/destinations";
+import { DestinationCard } from "@/components/ui/destination-card";
+import { Reveal } from "@/components/reveal";
+import { cn } from "@/lib/utils";
+
+const MAX = 6;
 
 export function HomeDestinationsGrid() {
-  const [destinos, setDestinos] = useState<Destino[]>([]);
-  const [error, setError] = useState("");
+  const [all, setAll] = useState<Destino[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [region, setRegion] = useState<Region | "Todos">("Todos");
 
   useEffect(() => {
     apiFetch("/api/destinations")
-      .then(res => res.json())
-      .then(data => setDestinos(data.slice(0, 3)))
-      .catch(() => setError("No se pudieron cargar los destinos."));
+      .then((r) => r.json())
+      .then((data: Destino[]) =>
+        setAll(
+          [...data].sort((a, b) => (a.displayOrder ?? 9999) - (b.displayOrder ?? 9999))
+        )
+      )
+      .catch(() => setError(true))
+      .finally(() => setLoading(false));
   }, []);
 
-  if (error) return <div className="text-red-500">{error}</div>;
-  if (!destinos.length) return <div className="text-gray-500">Cargando destinos...</div>;
+  const regions = useMemo(
+    () => REGIONS.filter((r) => all.some((d) => regionOf(d) === r)),
+    [all]
+  );
+  const shown = all.filter((d) => region === "Todos" || regionOf(d) === region).slice(0, MAX);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {destinos.map((dest) => (
-        <div key={dest._id} className="group overflow-hidden rounded-lg bg-white shadow-md hover:shadow-xl transition-all duration-300">
-          <div className="relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
-            {dest.imageUrl ?
-              <Image src={dest.imageUrl} alt={dest.name} fill className="object-cover transition-transform duration-500 group-hover:scale-110" /> :
-              <div className="bg-gray-200 w-full h-full flex items-center justify-center">Sin imagen</div>
-            }
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-          </div>
-          <div className="p-6 bg-white">
-            <h3 className="text-xl font-bold mb-2 text-gray-900">{dest.name}</h3>
-            <p className="text-sm text-gray-600 mb-4">{dest.country}</p>
-            <p className="text-gold-600 font-bold text-lg">Desde ${dest.price}</p>
-          </div>
+    <div>
+      <div className="mb-10 flex flex-wrap gap-2" role="group" aria-label="Filtrar por región">
+        {(["Todos", ...regions] as const).map((r) => (
+          <button
+            key={r}
+            type="button"
+            onClick={() => setRegion(r)}
+            aria-pressed={region === r}
+            className={cn(
+              "min-h-[44px] rounded-full border px-5 text-sm font-bold transition-all duration-300",
+              region === r
+                ? "border-ink bg-ink text-white"
+                : "border-stone-300 bg-white text-ink hover:border-ink"
+            )}
+          >
+            {r}
+          </button>
+        ))}
+      </div>
+
+      {error ? (
+        <p className="rounded-2xl bg-white p-8 text-center text-stone-600">
+          No pudimos cargar los paquetes en este momento.{" "}
+          <Link href="/contact" className="font-bold underline">Escríbenos</Link> y te enviamos las opciones.
+        </p>
+      ) : (
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {loading
+            ? Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="overflow-hidden rounded-3xl bg-white">
+                  <div className="aspect-[5/4] animate-pulse bg-stone-200" />
+                  <div className="space-y-3 p-5">
+                    <div className="h-4 w-1/3 animate-pulse rounded bg-stone-200" />
+                    <div className="h-7 w-2/3 animate-pulse rounded bg-stone-200" />
+                    <div className="h-10 w-1/2 animate-pulse rounded bg-stone-200" />
+                  </div>
+                </div>
+              ))
+            : shown.map((d, i) => (
+                <Reveal key={`${region}-${d._id}`} delay={(i % 3) * 120} className="h-full">
+                  <DestinationCard destination={d} />
+                </Reveal>
+              ))}
         </div>
-      ))}
+      )}
+
+      {!loading && !error && (
+        <div className="mt-12 flex justify-center">
+          <Link
+            href={region === "Todos" ? "/destinations" : `/destinations?region=${encodeURIComponent(region)}`}
+            className="btn-pill group border-2 border-ink px-8 text-ink hover:bg-ink hover:text-white"
+          >
+            Ver los {region === "Todos" ? all.length : all.filter((d) => regionOf(d) === region).length} paquetes
+            <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

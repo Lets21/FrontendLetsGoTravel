@@ -2,102 +2,156 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Menu, X, MessageCircle } from "lucide-react";
 import { siteConfig } from "@/lib/constants";
-import { Button } from "@/components/ui/button";
+import { whatsappLink } from "@/lib/destinations";
+import { cn } from "@/lib/utils";
+
+const NAV = [
+  { title: "Destinos", href: "/destinations" },
+  { title: "Servicios", href: "/services" },
+  { title: "Financiamiento", href: "/financing" },
+  { title: "Nosotros", href: "/about" },
+  { title: "Contacto", href: "/contact" },
+];
 
 export function SiteHeader() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Bloquear el scroll del fondo con el menú móvil abierto
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  useEffect(() => setOpen(false), [pathname]);
+
+  const solid = !isHome || scrolled || open;
 
   return (
-    <header className="fixed top-0 z-50 w-full bg-black text-white shadow-lg">
-      {/* Main bar: alturas pedidas */}
-      <div className="h-24 md:h-28">
-        <div className="container mx-auto relative flex h-full items-center justify-between px-4">
-          {/* Logo (izquierda) */}
-          <Link href="/" className="flex items-center">
-            <div className="relative h-16 w-40 xs:h-12 xs:w-36 md:h-28 md:w-72 shrink-0">
+    <>
+      <header
+        className={cn(
+          "fixed inset-x-0 top-0 z-50 text-white transition-all duration-500",
+          solid
+            ? "bg-ink/90 shadow-[0_10px_30px_-15px_rgba(0,0,0,.6)] backdrop-blur-md"
+            : "bg-gradient-to-b from-black/60 to-transparent"
+        )}
+      >
+        <div
+          className={cn(
+            "container mx-auto flex items-center justify-between gap-6 px-4 transition-all duration-500",
+            solid ? "h-20" : "h-24"
+          )}
+        >
+          <Link href="/" className="flex shrink-0 items-center" aria-label={`${siteConfig.name} – inicio`}>
+            <div className={cn("relative transition-all duration-500", solid ? "h-14 w-36 md:w-44" : "h-16 w-40 md:w-52")}>
               <Image
                 src="/logo - Editado.png"
-                alt="LetsGoTravel SS"
+                alt={siteConfig.name}
                 fill
                 priority
-                className="object-contain"
-                sizes="(max-width: 640px) 144px, (max-width: 768px) 176px, 224px"
+                className="object-contain object-left"
+                sizes="208px"
               />
             </div>
           </Link>
 
-          {/* Título centrado SOLO en móvil (no afecta desktop) */}
-          <div className="md:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 leading-tight text-center">
-            <span className="block text-sm font-semibold tracking-wide">
-              LETS<span className="text-gold-500">GO</span>TRAVEL{" "}
-              <span className="text-gold-500">& SS</span>
-            </span>
-            <span className="block text-[11px] text-white/70">
-              Tu Agencia de Viajes
-            </span>
-          </div>
-
-          {/* Navegación desktop */}
-          <nav className="hidden md:flex items-center gap-8">
-            {siteConfig.mainNav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-white/90 hover:text-gold-400 transition-colors font-medium"
-              >
-                {item.title}
-              </Link>
-            ))}
+          <nav aria-label="Principal" className="hidden items-center gap-8 lg:flex">
+            {NAV.map((item) => {
+              const active = pathname.startsWith(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "group relative py-2 text-[15px] font-semibold transition-colors",
+                    active ? "text-gold-300" : "text-white/85 hover:text-white"
+                  )}
+                >
+                  {item.title}
+                  <span
+                    className={cn(
+                      "absolute inset-x-0 -bottom-0.5 h-0.5 origin-left rounded-full bg-gold-500 transition-transform duration-300",
+                      active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                    )}
+                  />
+                </Link>
+              );
+            })}
           </nav>
 
-          {/* CTA + Hamburguesa */}
-          <div className="flex items-center gap-3">
-            <Button
-              asChild
-              className="hidden md:inline-flex bg-gold-500 hover:bg-gold-600 text-black font-semibold"
+          <div className="flex items-center gap-2">
+            <a
+              href={whatsappLink("¡Hola! Quiero cotizar un viaje.")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-pill hidden bg-gold-500 text-ink hover:bg-gold-400 sm:inline-flex"
             >
-              <Link href="/contact">Reserva tu Viaje</Link>
-            </Button>
-
+              <MessageCircle size={18} />
+              Cotiza gratis
+            </a>
             <button
-              className="md:hidden p-2"
-              onClick={() => setMobileMenuOpen((v) => !v)}
-              aria-label="Abrir menú"
+              className="flex h-12 w-12 items-center justify-center rounded-full hover:bg-white/10 lg:hidden"
+              onClick={() => setOpen((v) => !v)}
+              aria-label={open ? "Cerrar menú" : "Abrir menú"}
+              aria-expanded={open}
             >
-              {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+              {open ? <X size={26} /> : <Menu size={26} />}
             </button>
           </div>
         </div>
-      </div>
 
-      {/* Menú móvil: arranca justo bajo el header de 96px */}
-      {mobileMenuOpen && (
-        <div className="md:hidden fixed top-24 left-0 right-0 bottom-0 bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-black/80 z-40">
-          <nav className="container mx-auto flex flex-col gap-1 p-4">
-            {siteConfig.mainNav.map((item) => (
+        {/* Menú móvil */}
+        <div
+          className={cn(
+            "fixed inset-x-0 bottom-0 top-20 bg-ink/95 backdrop-blur-lg transition-all duration-500 lg:hidden",
+            open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+          )}
+        >
+          <nav className="container mx-auto flex flex-col px-6 pt-6">
+            {[{ title: "Inicio", href: "/" }, ...NAV].map((item, i) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="rounded-md px-2 py-3 text-base text-white/90 hover:bg-white/5 hover:text-white transition"
-                onClick={() => setMobileMenuOpen(false)}
+                style={{ transitionDelay: open ? `${80 + i * 50}ms` : "0ms" }}
+                className={cn(
+                  "border-b border-white/10 py-4 font-display text-3xl transition-all duration-500",
+                  open ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0",
+                  pathname === item.href ? "text-gold-300" : "text-white"
+                )}
               >
                 {item.title}
               </Link>
             ))}
-            <Button
-              asChild
-              className="mt-2 bg-gold-500 hover:bg-gold-600 text-black font-semibold"
+            <a
+              href={whatsappLink("¡Hola! Quiero cotizar un viaje.")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-pill mt-8 bg-[#25D366] text-[#0B2E17]"
             >
-              <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
-                Reserva tu Viaje
-              </Link>
-            </Button>
+              <MessageCircle size={20} /> Cotizar por WhatsApp
+            </a>
           </nav>
         </div>
-      )}
-    </header>
+      </header>
+
+      {/* Separador para páginas internas (el inicio va debajo del header) */}
+      {!isHome && <div className="h-20" aria-hidden="true" />}
+    </>
   );
 }

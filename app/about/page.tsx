@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { PageHero } from "@/components/ui/page-hero";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 
@@ -10,17 +11,13 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <main>
-      {/* Hero Section */}
-      <section className="relative h-[40vh] min-h-[300px] bg-black">
-        <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/4553618/pexels-photo-4553618.jpeg')] bg-cover bg-center opacity-70"></div>
-        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-        <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center text-white text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Sobre Nosotros</h1>
-          <p className="text-xl max-w-2xl mx-auto">
-            Nos apasiona crear experiencias de viaje inolvidables
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Quiénes somos"
+        title="Sobre"
+        accent="nosotros"
+        subtitle="Nos apasiona crear experiencias de viaje inolvidables"
+        image="https://images.pexels.com/photos/4553618/pexels-photo-4553618.jpeg?auto=compress&cs=tinysrgb&w=1920"
+      />
 
       {/* Our Story */}
       <section className="py-20">

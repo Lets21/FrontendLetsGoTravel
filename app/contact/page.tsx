@@ -1,4 +1,5 @@
 import { SectionHeading } from "@/components/ui/section-heading";
+import { PageHero } from "@/components/ui/page-hero";
 import { ContactForm } from "@/components/contact-form";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import { siteConfig } from "@/lib/constants";
@@ -14,17 +15,13 @@ export const metadata = {
 export default function ContactPage() {
   return (
     <main>
-      {/* Hero Section */}
-      <section className="relative h-[40vh] min-h-[300px] bg-black">
-        <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/5384428/pexels-photo-5384428.jpeg')] bg-cover bg-center opacity-70"></div>
-        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-        <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center text-white text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Contáctanos</h1>
-          <p className="text-xl max-w-2xl mx-auto">
-            Estamos aquí para ayudarte a planificar el viaje perfecto
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Hablemos"
+        title="Hablemos de tu"
+        accent="próximo viaje"
+        subtitle="Estamos aquí para ayudarte a planificar el viaje perfecto"
+        image="https://images.pexels.com/photos/5384428/pexels-photo-5384428.jpeg?auto=compress&cs=tinysrgb&w=1920"
+      />
 
       {/* Contact Section */}
       <section className="py-20">
@@ -91,7 +88,7 @@ export default function ContactPage() {
 
               <div className="rounded-lg overflow-hidden shadow-md h-80 flex-grow mt-auto">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1050.6985889349542!2d-78.47829857152888!3d-0.18571545889021715!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d59b003bfe614d%3A0x5b989950bcf85b8d!2sLet&#39;s%20Go%20Travel!5e1!3m2!1ses-419!2sec!4v1753723164272!5m2!1ses-419!2sec"
+                  src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d213.32091335461843!2d-78.51212868203524!3d-0.24133467881747078!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1ses-419!2sec!4v1794428172870!5m2!1ses-419!2sec"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
