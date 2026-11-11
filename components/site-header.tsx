@@ -8,6 +8,7 @@ import { Menu, X, MessageCircle } from "lucide-react";
 import { siteConfig } from "@/lib/constants";
 import { whatsappLink } from "@/lib/destinations";
 import { cn } from "@/lib/utils";
+import { Maleti } from "@/components/mascot/maleti";
 
 const NAV = [
   { title: "Destinos", href: "/destinations" },
@@ -21,10 +22,15 @@ export function SiteHeader() {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 40);
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(max > 0 ? Math.min(1, window.scrollY / max) : 0);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -110,20 +116,30 @@ export function SiteHeader() {
               onClick={() => setOpen((v) => !v)}
               aria-label={open ? "Cerrar menú" : "Abrir menú"}
               aria-expanded={open}
+              aria-controls="menu-movil"
             >
               {open ? <X size={26} /> : <Menu size={26} />}
             </button>
           </div>
         </div>
 
-        {/* Menú móvil */}
+        {/* Barra de progreso de lectura */}
         <div
+          aria-hidden="true"
+          className="absolute bottom-0 left-0 h-[3px] origin-left bg-gradient-to-r from-gold-600 via-gold-400 to-gold-300 transition-[opacity] duration-300"
+          style={{ transform: `scaleX(${progress})`, opacity: scrolled && !open ? 1 : 0 }}
+        />
+      </header>
+
+      {/* Menú móvil */}
+        <div
+          id="menu-movil"
           className={cn(
-            "fixed inset-x-0 bottom-0 top-20 bg-ink/95 backdrop-blur-lg transition-all duration-500 lg:hidden",
-            open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+            "fixed inset-x-0 bottom-0 top-20 z-[45] overflow-y-auto bg-ink text-white transition-all duration-500 lg:hidden",
+            open ? "visible pointer-events-auto opacity-100" : "invisible pointer-events-none opacity-0"
           )}
         >
-          <nav className="container mx-auto flex flex-col px-6 pt-6">
+          <nav className="container mx-auto flex flex-col px-6 pb-10 pt-6">
             {[{ title: "Inicio", href: "/" }, ...NAV].map((item, i) => (
               <Link
                 key={item.href}
@@ -146,9 +162,12 @@ export function SiteHeader() {
             >
               <MessageCircle size={20} /> Cotizar por WhatsApp
             </a>
+            <div className="mt-10 flex items-end gap-3">
+              <Maleti size={80} mood="wave" followCursor={false} />
+              <p className="mb-6 rounded-2xl rounded-bl-sm bg-white/10 px-4 py-3 text-sm text-white/85">¿A dónde nos vamos hoy?</p>
+            </div>
           </nav>
         </div>
-      </header>
 
       {/* Separador para páginas internas (el inicio va debajo del header) */}
       {!isHome && <div className="h-20" aria-hidden="true" />}

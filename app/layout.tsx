@@ -6,6 +6,7 @@ import { DM_Serif_Display, Manrope } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import { SiteHeader } from '@/components/site-header';
 import { SiteFooter } from '@/components/site-footer';
+import { TravelGuide } from '@/components/mascot/travel-guide';
 
 const sans = Manrope({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
 const display = DM_Serif_Display({
@@ -149,6 +150,7 @@ export default function RootLayout({
         {children}
 
         <SiteFooter />
+        <TravelGuide />
       </body>
     </html>
   );

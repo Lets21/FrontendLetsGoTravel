@@ -9,6 +9,7 @@ import { FinancingSection } from "@/components/financing-section";
 import { TestimonialCarousel } from "@/components/testimonial-carousel";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import { Reveal } from "@/components/reveal";
+import { Maleti } from "@/components/mascot/maleti";
 import { siteConfig } from "@/lib/constants";
 import { whatsappLink } from "@/lib/destinations";
 
@@ -34,7 +35,7 @@ export default function Home() {
       </div>
 
       {/* Paquetes */}
-      <section id="paquetes" className="scroll-mt-20 py-24 md:py-32">
+      <section id="paquetes" data-guide="Estos son nuestros paquetes más pedidos. ¡Filtra por región!" data-guide-mood="wow" className="scroll-mt-20 py-24 md:py-32">
         <div className="container mx-auto px-4">
           <Reveal>
             <SectionHeading
@@ -51,7 +52,7 @@ export default function Home() {
       <HowItWorks />
 
       {/* Financiamiento */}
-      <section id="financiamiento" className="py-24 md:py-32">
+      <section id="financiamiento" data-guide="Mueve la barra y mira cuánto pagarías al mes." data-guide-mood="think" className="scroll-mt-20 py-24 md:py-32">
         <div className="container mx-auto px-4">
           <FinancingSection />
         </div>
@@ -73,7 +74,7 @@ export default function Home() {
       </section>
 
       {/* Testimonios */}
-      <section className="py-24 md:py-32">
+      <section data-guide="Estos viajeros ya volvieron felices. ¡Tú puedes ser el siguiente!" data-guide-mood="love" className="py-24 md:py-32">
         <div className="container mx-auto px-4">
           <Reveal>
             <SectionHeading eyebrow="Opiniones reales" title="Viajeros que ya" accent="volvieron felices." />
@@ -87,7 +88,7 @@ export default function Home() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={CTA_IMAGE} alt="" aria-hidden="true" loading="lazy" className="absolute inset-0 h-full w-full animate-ken-burns object-cover opacity-50" />
         <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/70 to-ink/10" />
-        <div className="container relative mx-auto px-4 py-28 md:py-36">
+        <div className="container relative mx-auto grid items-center gap-10 px-4 py-28 md:py-36 lg:grid-cols-[1fr_auto]">
           <Reveal>
             <h2 className="max-w-3xl font-display text-5xl leading-[1.03] md:text-7xl">
               Tu próximo viaje empieza con <em className="italic text-gold-300">un mensaje.</em>
@@ -110,6 +111,14 @@ export default function Home() {
               <Link href="/about" className="btn-pill h-14 px-6 text-lg text-white/80 underline-offset-4 hover:text-white hover:underline">
                 Conócenos
               </Link>
+            </div>
+          </Reveal>
+          <Reveal delay={200} className="hidden justify-center lg:flex">
+            <div className="relative">
+              <div className="absolute -top-16 left-1/2 w-max -translate-x-1/2 rounded-2xl rounded-bl-sm bg-white px-5 py-3 text-base font-bold text-ink shadow-xl">
+                ¡Yo ya hice la maleta!
+              </div>
+              <Maleti size={240} mood="wave" />
             </div>
           </Reveal>
         </div>

@@ -20,6 +20,10 @@ import { cn } from "@/lib/utils";
 const FALLBACK =
   "https://images.pexels.com/photos/1450353/pexels-photo-1450353.jpeg?auto=compress&cs=tinysrgb&w=900";
 
+const BURST: [number, number][] = [
+  [0, -34], [26, -22], [32, 6], [18, 28], [-18, 28], [-32, 6], [-26, -22],
+];
+
 interface DestinationCardProps {
   destination: Destino;
 }
@@ -27,6 +31,8 @@ interface DestinationCardProps {
 export function DestinationCard({ destination: d }: DestinationCardProps) {
   const [open, setOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [burst, setBurst] = useState(0);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const { isFav, toggle } = useFavorites();
   const fav = isFav(d._id);
   const country = cleanCountry(d.country);
@@ -36,7 +42,16 @@ export function DestinationCard({ destination: d }: DestinationCardProps) {
 
   return (
     <>
-      <article className="group relative flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-[0_10px_30px_-18px_rgba(14,14,12,.35)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_35px_60px_-25px_rgba(14,14,12,.45)]">
+      <article
+        onPointerMove={(e) => {
+          if (e.pointerType !== "mouse") return;
+          const r = e.currentTarget.getBoundingClientRect();
+          setTilt({ x: ((e.clientY - r.top) / r.height - 0.5) * -6, y: ((e.clientX - r.left) / r.width - 0.5) * 8 });
+        }}
+        onPointerLeave={() => setTilt({ x: 0, y: 0 })}
+        style={{ transform: `perspective(900px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
+        className="tilt group relative flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-[0_10px_30px_-18px_rgba(14,14,12,.35)] transition-shadow duration-500 hover:shadow-[0_35px_60px_-25px_rgba(14,14,12,.45)]"
+      >
         {/* Imagen / flyer */}
         <button
           type="button"
@@ -52,7 +67,7 @@ export function DestinationCard({ destination: d }: DestinationCardProps) {
             loading="lazy"
             onLoad={() => setLoaded(true)}
             className={cn(
-              "h-full w-full object-cover transition-all duration-[1200ms] ease-out group-hover:scale-[1.06]",
+              "h-full w-full object-cover transition-all duration-1000 ease-out group-hover:scale-[1.06]",
               !hasCover && "object-top",
               loaded ? "opacity-100" : "opacity-0"
             )}
@@ -75,12 +90,24 @@ export function DestinationCard({ destination: d }: DestinationCardProps) {
 
         <button
           type="button"
-          onClick={() => toggle(d._id)}
+          onClick={() => {
+            if (!fav) setBurst((b) => b + 1);
+            toggle(d._id);
+          }}
           aria-pressed={fav}
           aria-label={fav ? "Quitar de favoritos" : "Guardar en favoritos"}
           className="absolute right-3 top-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur transition-transform duration-300 hover:scale-110 active:scale-90"
         >
-          <Heart size={20} className={cn("transition-colors", fav && "fill-red-500 text-red-500")} />
+          <Heart size={20} className={cn("transition-all duration-300", fav && "scale-110 fill-red-500 text-red-500")} />
+          {burst > 0 && (
+            <span key={burst} className="heart-burst pointer-events-none absolute inset-0" aria-hidden="true">
+              {BURST.map(([tx, ty], i) => (
+                <span key={i} style={{ ["--tx" as string]: `${tx}px`, ["--ty" as string]: `${ty}px` }}>
+                  <Heart size={12} className="fill-red-500 text-red-500" />
+                </span>
+              ))}
+            </span>
+          )}
         </button>
 
         {/* Contenido */}

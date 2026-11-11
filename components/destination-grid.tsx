@@ -8,6 +8,7 @@ import { type Destino, type Region, REGIONS, regionOf, cleanCountry, whatsappLin
 import { DestinationCard } from "@/components/ui/destination-card";
 import { Reveal } from "@/components/reveal";
 import { useFavorites } from "@/hooks/use-favorites";
+import { Maleti } from "@/components/mascot/maleti";
 import { cn } from "@/lib/utils";
 
 type Filter = Region | "Todos" | "Favoritos";
@@ -37,6 +38,7 @@ export function DestinationGrid() {
   const [budget, setBudget] = useState("");
   const [sort, setSort] = useState<Sort>("recomendados");
   const [term, setTerm] = useState("");
+  const [showMore, setShowMore] = useState(false);
   const { favs } = useFavorites();
 
   // Filtros que llegan desde el buscador del inicio
@@ -45,6 +47,7 @@ export function DestinationGrid() {
     if (r && (REGIONS as string[]).includes(r)) setFilter(r as Region);
     const b = params.get("budget");
     if (b) setBudget(b);
+    if (params.get("fav") === "1") setFilter("Favoritos");
   }, [params]);
 
   useEffect(() => {
@@ -77,7 +80,7 @@ export function DestinationGrid() {
 
   const chip = (active: boolean) =>
     cn(
-      "flex min-h-[44px] shrink-0 items-center gap-1.5 rounded-full border px-5 text-sm font-bold transition-all duration-300",
+      "flex min-h-[40px] shrink-0 items-center gap-1.5 rounded-full border px-4 text-sm font-bold transition-all duration-300 lg:min-h-[44px] lg:px-5",
       active ? "border-ink bg-ink text-white" : "border-stone-300 bg-white text-ink hover:border-ink"
     );
 
@@ -90,28 +93,43 @@ export function DestinationGrid() {
 
   return (
     <div>
-      {/* Barra de búsqueda y filtros */}
-      <div className="sticky top-20 z-30 -mx-4 mb-10 border-b border-stone-200/70 bg-cream/90 px-4 py-4 backdrop-blur-md">
+      {/* Barra de búsqueda y filtros: fija solo en escritorio, compacta en móvil */}
+      <div className="z-30 -mx-4 mb-8 border-b border-stone-200/70 bg-cream/95 px-4 py-4 backdrop-blur-md lg:sticky lg:top-20 lg:mb-10">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
-          <div className="relative flex-1">
-            <Search className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-stone-400" size={20} />
-            <input
-              type="search"
-              value={term}
-              onChange={(e) => setTerm(e.target.value)}
-              placeholder="Busca por destino, país o actividad…"
-              aria-label="Buscar paquetes"
-              className="h-12 w-full rounded-full border border-stone-300 bg-white pl-12 pr-11 text-ink outline-none transition focus:border-ink focus:ring-2 focus:ring-gold-300"
-            />
-            {term && (
-              <button onClick={() => setTerm("")} aria-label="Borrar búsqueda" className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full hover:bg-stone-100">
-                <X size={18} />
-              </button>
-            )}
+          <div className="flex gap-2 lg:flex-1">
+            <div className="relative flex-1">
+              <Search className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-stone-400" size={20} />
+              <input
+                type="search"
+                value={term}
+                onChange={(e) => setTerm(e.target.value)}
+                placeholder="Destino o país…"
+                aria-label="Buscar paquetes"
+                className="h-12 w-full rounded-full border border-stone-300 bg-white pl-12 pr-11 text-ink outline-none transition focus:border-ink focus:ring-2 focus:ring-gold-300"
+              />
+              {term && (
+                <button onClick={() => setTerm("")} aria-label="Borrar búsqueda" className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full hover:bg-stone-100">
+                  <X size={18} />
+                </button>
+              )}
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowMore((v) => !v)}
+              aria-expanded={showMore}
+              aria-controls="filtros-extra"
+              className={cn(
+                "relative flex h-12 shrink-0 items-center gap-1.5 rounded-full border px-4 text-sm font-bold transition lg:hidden",
+                showMore ? "border-ink bg-ink text-white" : "border-stone-300 bg-white text-ink"
+              )}
+            >
+              <SlidersHorizontal size={16} /> Filtros
+              {(budget || sort !== "recomendados") && <span className="absolute -right-0.5 -top-0.5 h-3 w-3 rounded-full border-2 border-cream bg-gold-500" />}
+            </button>
           </div>
-          <div className="flex gap-2">
+          <div id="filtros-extra" className={cn("gap-2", showMore ? "flex" : "hidden lg:flex")}>
             <label className="flex h-12 flex-1 items-center gap-2 rounded-full border border-stone-300 bg-white px-4 lg:flex-none">
-              <SlidersHorizontal size={16} className="text-stone-500" />
+              <SlidersHorizontal size={16} className="hidden text-stone-500 lg:block" />
               <span className="sr-only">Presupuesto</span>
               <select value={budget} onChange={(e) => setBudget(e.target.value)} className="w-full cursor-pointer bg-transparent text-sm font-semibold outline-none">
                 {BUDGETS.map((b) => (
@@ -131,7 +149,7 @@ export function DestinationGrid() {
           </div>
         </div>
 
-        <div className="mt-3 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none]" role="group" aria-label="Filtrar por región">
+        <div className="-mx-4 mt-3 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none]" role="group" aria-label="Filtrar por región">
           {(["Todos", ...regions] as Filter[]).map((r) => (
             <button key={r} type="button" onClick={() => setFilter(r)} aria-pressed={filter === r} className={chip(filter === r)}>
               {r}
@@ -166,6 +184,7 @@ export function DestinationGrid() {
         </div>
       ) : list.length === 0 ? (
         <div className="rounded-3xl bg-white p-10 text-center md:p-16">
+          <Maleti size={110} mood={filter === "Favoritos" ? "love" : "think"} className="mx-auto mb-4" />
           <p className="mb-2 font-display text-3xl text-ink">
             {filter === "Favoritos" ? "Aún no tienes favoritos" : "No encontramos ese viaje… todavía"}
           </p>

@@ -22,7 +22,7 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <section className="relative overflow-hidden bg-ink py-24 text-white md:py-32">
+    <section data-guide="Así de simple: eliges, te lo armamos y viajas." data-guide-mood="happy" className="relative overflow-hidden bg-ink py-24 text-white md:py-32">
       <div className="pointer-events-none absolute -left-40 top-0 h-96 w-96 rounded-full bg-gold-500/10 blur-3xl" />
       <div className="container relative mx-auto px-4">
         <Reveal>

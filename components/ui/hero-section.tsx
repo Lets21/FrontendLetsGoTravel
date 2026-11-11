@@ -6,6 +6,7 @@ import { Search, Volume2, VolumeX } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { REGIONS } from "@/lib/destinations";
 import { cn } from "@/lib/utils";
+import { CountUp } from "@/components/count-up";
 
 const px = (id: number) =>
   `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=1920`;
@@ -80,7 +81,7 @@ export function HeroSection() {
           <div
             key={s.image}
             className={cn(
-              "absolute inset-0 transition-opacity duration-[1500ms]",
+              "absolute inset-0 transition-opacity duration-1000",
               i === current ? "opacity-100" : "opacity-0"
             )}
           >
@@ -97,6 +98,32 @@ export function HeroSection() {
       )}
       <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/10 to-ink/95" />
       <div className="absolute inset-0 bg-gradient-to-r from-ink/60 via-transparent to-transparent" />
+
+      {/* Avión que cruza el hero */}
+      <svg
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-[1] h-full w-full"
+        viewBox="0 0 1440 900"
+        preserveAspectRatio="xMidYMid slice"
+      >
+        <path
+          id="ruta-avion"
+          d="M-60 640 C 300 420, 620 520, 900 300 S 1300 120, 1520 160"
+          fill="none"
+          stroke="rgba(233,203,107,.55)"
+          strokeWidth="2.5"
+          strokeDasharray="2 14"
+          strokeLinecap="round"
+          className="dash-flow"
+        />
+        <g>
+          <circle r="22" fill="rgba(212,175,55,.18)" />
+          <path d="M-16 0 L16 -2 L20 0 L16 2 Z M2 -1 L-6 -14 L-1 -14 L9 -1 Z M2 1 L-6 14 L-1 14 L9 1 Z M-12 -1 L-16 -7 L-13 -7 L-8 -1 Z M-12 1 L-16 7 L-13 7 L-8 1 Z" fill="#FFFFFF" />
+          <animateMotion dur="14s" repeatCount="indefinite" rotate="auto" keyPoints="0;1" keyTimes="0;1" calcMode="linear">
+            <mpath href="#ruta-avion" />
+          </animateMotion>
+        </g>
+      </svg>
 
       {/* Contenido */}
       <div className="container relative z-10 mx-auto flex flex-1 flex-col justify-end px-4 pb-10 pt-32 md:pb-14">
@@ -166,7 +193,9 @@ export function HeroSection() {
         <div className="container mx-auto grid grid-cols-2 gap-6 px-4 py-6 md:grid-cols-4">
           {TRUST.map((t, i) => (
             <div key={t.big} className="animate-fade-up" style={{ animationDelay: `${600 + i * 100}ms` }}>
-              <p className="font-display text-3xl text-gold-300 md:text-4xl">{t.big}</p>
+              <p className="font-display text-3xl text-gold-300 md:text-4xl">
+                <CountUp value={t.big} delay={600 + i * 100} />
+              </p>
               <p className="text-sm text-white/75">{t.small}</p>
             </div>
           ))}
@@ -177,7 +206,7 @@ export function HeroSection() {
       {videoUrl ? (
         <button
           onClick={() => setMuted((m) => !m)}
-          className="absolute right-5 top-28 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-black/40 backdrop-blur transition hover:bg-black/60"
+          className="absolute right-5 top-28 z-20 hidden h-11 w-11 md:flex items-center justify-center rounded-full border border-white/25 bg-black/40 backdrop-blur transition hover:bg-black/60"
           aria-label={muted ? "Activar sonido" : "Silenciar"}
         >
           {muted ? <VolumeX size={20} /> : <Volume2 size={20} />}

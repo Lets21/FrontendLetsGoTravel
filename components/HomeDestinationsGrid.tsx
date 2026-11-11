@@ -37,7 +37,7 @@ export function HomeDestinationsGrid() {
 
   return (
     <div>
-      <div className="mb-10 flex flex-wrap gap-2" role="group" aria-label="Filtrar por región">
+      <div className="-mx-4 mb-10 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] md:mx-0 md:flex-wrap md:px-0" role="group" aria-label="Filtrar por región">
         {(["Todos", ...regions] as const).map((r) => (
           <button
             key={r}
@@ -45,7 +45,7 @@ export function HomeDestinationsGrid() {
             onClick={() => setRegion(r)}
             aria-pressed={region === r}
             className={cn(
-              "min-h-[44px] rounded-full border px-5 text-sm font-bold transition-all duration-300",
+              "min-h-[44px] shrink-0 rounded-full border px-5 text-sm font-bold transition-all duration-300",
               region === r
                 ? "border-ink bg-ink text-white"
                 : "border-stone-300 bg-white text-ink hover:border-ink"

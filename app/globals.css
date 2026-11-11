@@ -153,3 +153,51 @@ html {
   border: 4px solid #d4af37;
 }
 .range-gold:focus-visible { box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.5); }
+
+/* ===================== Maleti (mascota) ===================== */
+.maleti .maleti-body,
+.maleti .maleti-arm,
+.maleti .maleti-eyes,
+.maleti .maleti-shadow {
+  transform-box: fill-box;
+}
+.maleti-bob .maleti-body { animation: maleti-bob 3.2s ease-in-out infinite; transform-origin: 50% 100%; }
+.maleti-bob .maleti-shadow { animation: maleti-shadow 3.2s ease-in-out infinite; transform-origin: center; }
+.maleti .maleti-eyes { animation: maleti-blink 4.5s infinite; transform-origin: center; }
+.maleti .maleti-arm { transform-origin: 0% 100%; }
+.maleti-wave .maleti-arm { animation: maleti-wave 1.1s ease-in-out infinite; }
+.maleti-wow .maleti-body { animation: maleti-jump 0.6s cubic-bezier(.3,1.6,.5,1) 1; }
+.maleti-love .maleti-body { animation: maleti-squish 0.9s ease-in-out infinite; transform-origin: 50% 100%; }
+.maleti-zzz text { animation: maleti-zzz 2.4s ease-in-out infinite; }
+.maleti-zzz text:nth-child(2) { animation-delay: .6s; }
+
+@keyframes maleti-bob { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-6px) } }
+@keyframes maleti-shadow { 0%,100% { transform: scaleX(1); opacity: .15 } 50% { transform: scaleX(.8); opacity: .08 } }
+@keyframes maleti-blink { 0%, 92%, 100% { transform: scaleY(1) } 95% { transform: scaleY(.1) } }
+@keyframes maleti-wave { 0%,100% { transform: rotate(0deg) } 25% { transform: rotate(-22deg) } 75% { transform: rotate(14deg) } }
+@keyframes maleti-jump { 0% { transform: translateY(0) scale(1,1) } 30% { transform: translateY(2px) scale(1.06,.92) } 60% { transform: translateY(-14px) scale(.96,1.05) } 100% { transform: translateY(0) scale(1,1) } }
+@keyframes maleti-squish { 0%,100% { transform: scale(1,1) } 50% { transform: scale(1.04,.96) } }
+@keyframes maleti-zzz { 0% { opacity: 0; transform: translate(0,4px) } 50% { opacity: 1 } 100% { opacity: 0; transform: translate(6px,-8px) } }
+
+/* Burbuja de diálogo */
+@keyframes bubble-in { from { opacity: 0; transform: translateY(8px) scale(.9) } to { opacity: 1; transform: none } }
+.bubble-in { animation: bubble-in .45s cubic-bezier(.3,1.4,.5,1) both; transform-origin: 0% 100%; }
+
+/* Explosión de corazones (favoritos) */
+.heart-burst span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  animation: heart-burst .8s cubic-bezier(.2,.7,.2,1) forwards;
+}
+@keyframes heart-burst {
+  from { transform: translate(-50%, -50%) scale(.3); opacity: 1 }
+  to { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1); opacity: 0 }
+}
+
+/* Avión del hero */
+@keyframes dash-flow { to { stroke-dashoffset: -40 } }
+.dash-flow { animation: dash-flow 2s linear infinite; }
+
+/* Tarjetas con inclinación 3D */
+.tilt { transform-style: preserve-3d; transition: transform .25s ease-out; }
